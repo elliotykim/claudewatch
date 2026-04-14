@@ -1,0 +1,573 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 60;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AAAAAAAAAAAAAAAAAAAA0201 /* ClaudeWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0101 /* ClaudeWatchApp.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0202 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0102 /* AppDelegate.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0203 /* Severity.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0103 /* Severity.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0206 /* QuotaState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0106 /* QuotaState.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0207 /* StatusState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0107 /* StatusState.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0208 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0108 /* Preferences.swift */; };
+		AAAAAAAAAAAAAAAAAAAA020C /* QuotaSyncClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA010C /* QuotaSyncClient.swift */; };
+		AAAAAAAAAAAAAAAAAAAA020D /* StatusClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA010D /* StatusClient.swift */; };
+		AAAAAAAAAAAAAAAAAAAA020E /* AppNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA010E /* AppNotifications.swift */; };
+		AAAAAAAAAAAAAAAAAAAA020F /* GlobalHotkey.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA010F /* GlobalHotkey.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0210 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0110 /* AppCoordinator.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0212 /* MenuBarLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0112 /* MenuBarLabel.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0213 /* PopoverRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0113 /* PopoverRoot.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0214 /* UsageSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0114 /* UsageSection.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0215 /* StatusSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0115 /* StatusSection.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0216 /* SettingsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0116 /* SettingsSection.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0217 /* HotkeyRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0117 /* HotkeyRecorder.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0220 /* ClaudeLogoShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0120 /* ClaudeLogoShape.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0251 /* QuotaSyncClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0151 /* QuotaSyncClientTests.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0252 /* StatusClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0152 /* StatusClientTests.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0253 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0153 /* MockURLProtocol.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AAAAAAAAAAAAAAAAAAAA0061 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AAAAAAAAAAAAAAAAAAAA0001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AAAAAAAAAAAAAAAAAAAA0010;
+			remoteInfo = ClaudeWatch;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		AAAAAAAAAAAAAAAAAAAA0101 /* ClaudeWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeWatchApp.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0102 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0103 /* Severity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Severity.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0106 /* QuotaState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotaState.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0107 /* StatusState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusState.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0108 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA010C /* QuotaSyncClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotaSyncClient.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA010D /* StatusClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusClient.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA010E /* AppNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNotifications.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA010F /* GlobalHotkey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalHotkey.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0110 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0112 /* MenuBarLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarLabel.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0113 /* PopoverRoot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverRoot.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0114 /* UsageSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageSection.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0115 /* StatusSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusSection.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0116 /* SettingsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSection.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0117 /* HotkeyRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotkeyRecorder.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0120 /* ClaudeLogoShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeLogoShape.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0118 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0119 /* ClaudeWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClaudeWatch.entitlements; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0151 /* QuotaSyncClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotaSyncClientTests.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0152 /* StatusClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusClientTests.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0153 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA01F0 /* ClaudeWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClaudeWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AAAAAAAAAAAAAAAAAAAA01F1 /* ClaudeWatchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClaudeWatchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AAAAAAAAAAAAAAAAAAAA0042 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AAAAAAAAAAAAAAAAAAAA0052 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AAAAAAAAAAAAAAAAAAAA0070 = {
+			isa = PBXGroup;
+			children = (
+				AAAAAAAAAAAAAAAAAAAA0071 /* ClaudeWatch */,
+				AAAAAAAAAAAAAAAAAAAA0072 /* ClaudeWatchTests */,
+				AAAAAAAAAAAAAAAAAAAA0079 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		AAAAAAAAAAAAAAAAAAAA0071 /* ClaudeWatch */ = {
+			isa = PBXGroup;
+			children = (
+				AAAAAAAAAAAAAAAAAAAA0073 /* App */,
+				AAAAAAAAAAAAAAAAAAAA0074 /* Models */,
+				AAAAAAAAAAAAAAAAAAAA0075 /* Services */,
+				AAAAAAAAAAAAAAAAAAAA0076 /* Coordinator */,
+				AAAAAAAAAAAAAAAAAAAA0077 /* UI */,
+			);
+			path = ClaudeWatch;
+			sourceTree = "<group>";
+		};
+		AAAAAAAAAAAAAAAAAAAA0072 /* ClaudeWatchTests */ = {
+			isa = PBXGroup;
+			children = (
+				AAAAAAAAAAAAAAAAAAAA0151 /* QuotaSyncClientTests.swift */,
+				AAAAAAAAAAAAAAAAAAAA0152 /* StatusClientTests.swift */,
+				AAAAAAAAAAAAAAAAAAAA0153 /* MockURLProtocol.swift */,
+			);
+			path = ClaudeWatchTests;
+			sourceTree = "<group>";
+		};
+		AAAAAAAAAAAAAAAAAAAA0073 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				AAAAAAAAAAAAAAAAAAAA0101 /* ClaudeWatchApp.swift */,
+				AAAAAAAAAAAAAAAAAAAA0102 /* AppDelegate.swift */,
+				AAAAAAAAAAAAAAAAAAAA0118 /* Info.plist */,
+				AAAAAAAAAAAAAAAAAAAA0119 /* ClaudeWatch.entitlements */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		AAAAAAAAAAAAAAAAAAAA0074 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AAAAAAAAAAAAAAAAAAAA0103 /* Severity.swift */,
+				AAAAAAAAAAAAAAAAAAAA0106 /* QuotaState.swift */,
+				AAAAAAAAAAAAAAAAAAAA0107 /* StatusState.swift */,
+				AAAAAAAAAAAAAAAAAAAA0108 /* Preferences.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		AAAAAAAAAAAAAAAAAAAA0075 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				AAAAAAAAAAAAAAAAAAAA010C /* QuotaSyncClient.swift */,
+				AAAAAAAAAAAAAAAAAAAA010D /* StatusClient.swift */,
+				AAAAAAAAAAAAAAAAAAAA010E /* AppNotifications.swift */,
+				AAAAAAAAAAAAAAAAAAAA010F /* GlobalHotkey.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		AAAAAAAAAAAAAAAAAAAA0076 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				AAAAAAAAAAAAAAAAAAAA0110 /* AppCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		AAAAAAAAAAAAAAAAAAAA0077 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				AAAAAAAAAAAAAAAAAAAA0112 /* MenuBarLabel.swift */,
+				AAAAAAAAAAAAAAAAAAAA0113 /* PopoverRoot.swift */,
+				AAAAAAAAAAAAAAAAAAAA0114 /* UsageSection.swift */,
+				AAAAAAAAAAAAAAAAAAAA0115 /* StatusSection.swift */,
+				AAAAAAAAAAAAAAAAAAAA0116 /* SettingsSection.swift */,
+				AAAAAAAAAAAAAAAAAAAA0117 /* HotkeyRecorder.swift */,
+				AAAAAAAAAAAAAAAAAAAA0120 /* ClaudeLogoShape.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		AAAAAAAAAAAAAAAAAAAA0079 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AAAAAAAAAAAAAAAAAAAA01F0 /* ClaudeWatch.app */,
+				AAAAAAAAAAAAAAAAAAAA01F1 /* ClaudeWatchTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AAAAAAAAAAAAAAAAAAAA0010 /* ClaudeWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AAAAAAAAAAAAAAAAAAAA0030 /* Build configuration list for PBXNativeTarget "ClaudeWatch" */;
+			buildPhases = (
+				AAAAAAAAAAAAAAAAAAAA0040 /* Sources */,
+				AAAAAAAAAAAAAAAAAAAA0041 /* Resources */,
+				AAAAAAAAAAAAAAAAAAAA0042 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ClaudeWatch;
+			productName = ClaudeWatch;
+			productReference = AAAAAAAAAAAAAAAAAAAA01F0 /* ClaudeWatch.app */;
+			productType = "com.apple.product-type.application";
+		};
+		AAAAAAAAAAAAAAAAAAAA0020 /* ClaudeWatchTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AAAAAAAAAAAAAAAAAAAA0036 /* Build configuration list for PBXNativeTarget "ClaudeWatchTests" */;
+			buildPhases = (
+				AAAAAAAAAAAAAAAAAAAA0050 /* Sources */,
+				AAAAAAAAAAAAAAAAAAAA0051 /* Resources */,
+				AAAAAAAAAAAAAAAAAAAA0052 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AAAAAAAAAAAAAAAAAAAA0060 /* PBXTargetDependency */,
+			);
+			name = ClaudeWatchTests;
+			productName = ClaudeWatchTests;
+			productReference = AAAAAAAAAAAAAAAAAAAA01F1 /* ClaudeWatchTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AAAAAAAAAAAAAAAAAAAA0001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastSwiftUpdateCheck = 1530;
+				LastUpgradeCheck = 2630;
+				TargetAttributes = {
+					AAAAAAAAAAAAAAAAAAAA0010 = {
+						CreatedOnToolsVersion = 15.3;
+					};
+					AAAAAAAAAAAAAAAAAAAA0020 = {
+						CreatedOnToolsVersion = 15.3;
+						TestTargetID = AAAAAAAAAAAAAAAAAAAA0010;
+					};
+				};
+			};
+			buildConfigurationList = AAAAAAAAAAAAAAAAAAAA0033 /* Build configuration list for PBXProject "ClaudeWatch" */;
+			compatibilityVersion = "Xcode 15.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = AAAAAAAAAAAAAAAAAAAA0070;
+			productRefGroup = AAAAAAAAAAAAAAAAAAAA0079 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AAAAAAAAAAAAAAAAAAAA0010 /* ClaudeWatch */,
+				AAAAAAAAAAAAAAAAAAAA0020 /* ClaudeWatchTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AAAAAAAAAAAAAAAAAAAA0041 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AAAAAAAAAAAAAAAAAAAA0051 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AAAAAAAAAAAAAAAAAAAA0040 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AAAAAAAAAAAAAAAAAAAA0201 /* ClaudeWatchApp.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA0202 /* AppDelegate.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA0203 /* Severity.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA0206 /* QuotaState.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA0207 /* StatusState.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA0208 /* Preferences.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA020C /* QuotaSyncClient.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA020D /* StatusClient.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA020E /* AppNotifications.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA020F /* GlobalHotkey.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA0210 /* AppCoordinator.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA0212 /* MenuBarLabel.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA0213 /* PopoverRoot.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA0214 /* UsageSection.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA0215 /* StatusSection.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA0216 /* SettingsSection.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA0217 /* HotkeyRecorder.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA0220 /* ClaudeLogoShape.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AAAAAAAAAAAAAAAAAAAA0050 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AAAAAAAAAAAAAAAAAAAA0251 /* QuotaSyncClientTests.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA0252 /* StatusClientTests.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA0253 /* MockURLProtocol.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AAAAAAAAAAAAAAAAAAAA0060 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AAAAAAAAAAAAAAAAAAAA0010 /* ClaudeWatch */;
+			targetProxy = AAAAAAAAAAAAAAAAAAAA0061 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		AAAAAAAAAAAAAAAAAAAA0031 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ClaudeWatch/App/ClaudeWatch.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = ClaudeWatch/App/Info.plist;
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.elliotykim.claudewatch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		AAAAAAAAAAAAAAAAAAAA0032 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ClaudeWatch/App/ClaudeWatch.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = ClaudeWatch/App/Info.plist;
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.elliotykim.claudewatch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		AAAAAAAAAAAAAAAAAAAA0034 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		AAAAAAAAAAAAAAAAAAAA0035 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		AAAAAAAAAAAAAAAAAAAA0037 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.elliotykim.claudewatch.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ClaudeWatch.app/Contents/MacOS/ClaudeWatch";
+			};
+			name = Debug;
+		};
+		AAAAAAAAAAAAAAAAAAAA0038 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.elliotykim.claudewatch.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ClaudeWatch.app/Contents/MacOS/ClaudeWatch";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AAAAAAAAAAAAAAAAAAAA0030 /* Build configuration list for PBXNativeTarget "ClaudeWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AAAAAAAAAAAAAAAAAAAA0031 /* Debug */,
+				AAAAAAAAAAAAAAAAAAAA0032 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AAAAAAAAAAAAAAAAAAAA0033 /* Build configuration list for PBXProject "ClaudeWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AAAAAAAAAAAAAAAAAAAA0034 /* Debug */,
+				AAAAAAAAAAAAAAAAAAAA0035 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AAAAAAAAAAAAAAAAAAAA0036 /* Build configuration list for PBXNativeTarget "ClaudeWatchTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AAAAAAAAAAAAAAAAAAAA0037 /* Debug */,
+				AAAAAAAAAAAAAAAAAAAA0038 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AAAAAAAAAAAAAAAAAAAA0001 /* Project object */;
+}
