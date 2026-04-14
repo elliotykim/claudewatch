@@ -2,6 +2,8 @@
 
 Native macOS menu-bar app for tracking Claude Code usage and Anthropic service status.
 
+![ClaudeWatch popover screenshot](screenshot.png)
+
 - Subscription usage from `~/.claude/claudewatch-usage.json`, written by the Claude Code statusline hook.
 - Claude Code service health from `https://status.claude.com/api/v2/components.json`.
 - macOS 14 Sonoma+, Swift 5+/SwiftUI, sandboxed, zero external dependencies.
