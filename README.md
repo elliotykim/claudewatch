@@ -35,7 +35,51 @@ press ⌘⌥C) to show the popover.
 
 ClaudeWatch reads usage from `~/.claude/claudewatch-usage.json`. This file is
 written by a Claude Code statusline hook — ClaudeWatch itself never calls the
-Anthropic API.
+Anthropic API. **Usage data is only updated while Claude Code is actively being
+used in the terminal**; ClaudeWatch has no way to fetch it independently.
+
+### Installing the statusline hook
+
+The included `statusline.sh` script is a Claude Code
+[statusline](https://docs.anthropic.com/en/docs/claude-code/status-bar)
+hook that serves two purposes:
+
+1. **Feeds ClaudeWatch** — each time the statusline renders, the script writes
+   the latest usage data to `~/.claude/claudewatch-usage.json`.
+2. **Enriches your terminal** — the statusline itself displays the current
+   model, context-window token usage, reasoning effort, 5-hour and 7-day rate
+   limit percentages, and live Claude Code service status.
+
+The easiest way to install is with the included install script, which copies
+the statusline into place, checks that `jq` is installed, and configures
+`~/.claude/settings.json` for you:
+
+```sh
+./install-statusline.sh
+```
+
+Or install manually:
+
+```sh
+cp statusline.sh ~/.claude/statusline.sh
+chmod +x ~/.claude/statusline.sh
+```
+
+Then add (or merge) the `statusLine` entry in your Claude Code settings
+(`~/.claude/settings.json`):
+
+```json
+{
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh"
+  }
+}
+```
+
+The next time you start a Claude Code session in the terminal, the statusline
+will appear and ClaudeWatch will begin receiving usage updates. If ClaudeWatch
+shows stale data, it means no terminal session has run since the last update.
 
 ### Expected JSON schema
 
