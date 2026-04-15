@@ -19,8 +19,6 @@ struct PopoverRoot: View {
             bottomBar
         }
         .frame(width: 320)
-        .foregroundStyle(.black)
-        .tint(.black)
         .onReceive(NotificationCenter.default.publisher(for: NSPopover.willShowNotification)) { _ in
             showingSettings = false
         }
@@ -59,7 +57,7 @@ struct PopoverRoot: View {
             Button("Quit") { NSApp.terminate(nil) }
                 .buttonStyle(.plain)
                 .font(.caption)
-                .foregroundStyle(.black)
+                .foregroundStyle(.secondary)
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 8)

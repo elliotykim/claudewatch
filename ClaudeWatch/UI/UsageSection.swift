@@ -36,7 +36,7 @@ struct UsageSection: View {
                 VStack(alignment: .leading, spacing: 6) {
                     Text("No usage data yet").font(.subheadline).bold()
                     Text("Configure the statusline hook in Claude Code to see your subscription usage here.")
-                        .font(.caption).foregroundStyle(.black)
+                        .font(.caption).foregroundStyle(.secondary)
                 }
                 .padding(8)
                 .background(Color.yellow.opacity(0.15))
@@ -45,17 +45,17 @@ struct UsageSection: View {
 
             if let updatedAt = coordinator.quota.updatedAt {
                 Text("Updated \(Self.relative(updatedAt))")
-                    .font(.caption2).foregroundStyle(.black)
+                    .font(.caption2).foregroundStyle(.secondary)
             }
 
             if hasExpiredWindow {
                 Text("Usage will update next time Claude Code is used.")
-                    .font(.caption2).foregroundStyle(.black)
+                    .font(.caption2).foregroundStyle(.tertiary)
             }
 
             if let err = coordinator.quota.lastError {
                 Text(err)
-                    .font(.caption2).foregroundStyle(.black)
+                    .font(.caption2).foregroundStyle(.secondary)
             }
         }
     }
@@ -78,13 +78,13 @@ struct UsageSection: View {
                     if let resets = resetsAt {
                         let verb = resets < Date() ? "Reset" : "Resets"
                         Text("\(verb) \(Self.relative(resets))")
-                            .font(.caption2).foregroundStyle(.black)
+                            .font(.caption2).foregroundStyle(.secondary)
                     }
                 }
                 Spacer()
                 Text("\(Int(displayPct))% used")
                     .font(.subheadline).monospacedDigit()
-                    .foregroundStyle(.black)
+                    .foregroundStyle(.primary)
             }
             ProgressView(value: min(displayPct, 100), total: 100)
                 .tint(tint)
