@@ -50,6 +50,8 @@ hook that serves two purposes:
    model, context-window token usage, reasoning effort, 5-hour and 7-day rate
    limit percentages, and live Claude Code service status.
 
+![Claude Code terminal with statusline](statusline-screenshot.png)
+
 The easiest way to install is with the included install script, which copies
 the statusline into place, checks that `jq` is installed, and configures
 `~/.claude/settings.json` for you:
