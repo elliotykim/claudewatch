@@ -91,10 +91,10 @@ shows stale data, it means no terminal session has run since the last update.
     "used_percentage": 38.0,
     "resets_at": 1713100000
   },
-  "weekly": [
-    { "label": "All models", "used_percentage": 8.0, "resets_at": 1713500000 },
-    { "label": "Sonnet only", "used_percentage": 5.0, "resets_at": 1713600000 }
-  ],
+  "seven_day": {
+    "used_percentage": 8.0,
+    "resets_at": 1713500000
+  },
   "updated_at": 1713099000
 }
 ```
@@ -103,15 +103,30 @@ shows stale data, it means no terminal session has run since the last update.
 |---|---|---|
 | `five_hour.used_percentage` | yes | 0–100, current 5-hour session usage |
 | `five_hour.resets_at` | no | Unix epoch when the session window resets |
-| `weekly` | no | Array of per-model weekly limit windows |
+| `seven_day.used_percentage` | yes | 0–100, weekly usage across all models |
+| `seven_day.resets_at` | no | Unix epoch when the weekly window resets |
+| `updated_at` | no | Unix epoch when the file was last written |
+
+This is the shape the bundled `statusline.sh` writes today.
+
+#### Optional: `weekly` array (newer, multi-bucket)
+
+For clients that want to surface multiple weekly buckets (e.g. per-model
+limits), a `"weekly"` array can be provided instead of `"seven_day"`. When
+present, it takes precedence.
+
+```json
+"weekly": [
+  { "label": "All models", "used_percentage": 8.0, "resets_at": 1713500000 },
+  { "label": "Sonnet only", "used_percentage": 5.0, "resets_at": 1713600000 }
+]
+```
+
+| Field | Required | Description |
+|---|---|---|
 | `weekly[].label` | yes | Display name (e.g. "All models", "Sonnet only") |
 | `weekly[].used_percentage` | yes | 0–100, weekly usage for this bucket |
 | `weekly[].resets_at` | no | Unix epoch when this weekly window resets |
-| `updated_at` | no | Unix epoch when the file was last written |
-
-For backward compatibility, a single `"seven_day"` object (same shape as
-`five_hour`) is accepted in place of the `"weekly"` array and displayed as
-"All models".
 
 ## Layout
 
