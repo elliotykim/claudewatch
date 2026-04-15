@@ -20,12 +20,17 @@ final class AppCoordinator: ObservableObject {
 
     private var quotaTimer: Timer?
     private var statusTimer: Timer?
+    private var wakeObserver: NSObjectProtocol?
+    private var started = false
 
     private var lastStatusSeverity: Severity?
     private var lastFiveHourResetsAt: Date?
     private var lastFiveHourUsagePercent: Double?
 
     func start() {
+        guard !started else { return }
+        started = true
+
         AppNotifications.shared.requestAuthorizationIfNeeded()
         scheduleTimers()
         observeWake()
@@ -36,7 +41,14 @@ final class AppCoordinator: ObservableObject {
 
     func stop() {
         quotaTimer?.invalidate()
+        quotaTimer = nil
         statusTimer?.invalidate()
+        statusTimer = nil
+        if let wakeObserver {
+            NSWorkspace.shared.notificationCenter.removeObserver(wakeObserver)
+            self.wakeObserver = nil
+        }
+        started = false
     }
 
     func reschedule() {
@@ -64,7 +76,7 @@ final class AppCoordinator: ObservableObject {
 
     private func observeWake() {
         let nc = NSWorkspace.shared.notificationCenter
-        nc.addObserver(forName: NSWorkspace.didWakeNotification, object: nil, queue: .main) { [weak self] _ in
+        wakeObserver = nc.addObserver(forName: NSWorkspace.didWakeNotification, object: nil, queue: .main) { [weak self] _ in
             Task { @MainActor in
                 self?.runQuotaSync()
                 await self?.runStatusPoll()
