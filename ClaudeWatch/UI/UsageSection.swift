@@ -76,7 +76,8 @@ struct UsageSection: View {
                 VStack(alignment: .leading, spacing: 1) {
                     Text(label).font(.subheadline)
                     if let resets = resetsAt {
-                        Text("Resets \(Self.relative(resets))")
+                        let verb = resets < Date() ? "Reset" : "Resets"
+                        Text("\(verb) \(Self.relative(resets))")
                             .font(.caption2).foregroundStyle(.black)
                     }
                 }

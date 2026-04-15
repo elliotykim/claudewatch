@@ -13,10 +13,11 @@ struct MenuBarLabel: View {
                     .frame(width: 14, height: 14)
             }
             if preferences.showUsageInMenuBar {
-                if let pct = coordinator.quota.fiveHour?.usedPercentage {
-                    Text("\(Int(pct))%")
+                if let fh = coordinator.quota.fiveHour {
+                    let displayPct = fh.isExpired ? 0.0 : fh.usedPercentage
+                    Text("\(Int(displayPct))%")
                         .font(.system(size: 12, weight: .medium, design: .monospaced))
-                        .foregroundStyle(usageColor(pct))
+                        .foregroundStyle(fh.isExpired ? Color.secondary : usageColor(displayPct))
                 } else {
                     Text("—")
                         .font(.system(size: 12, weight: .medium))
@@ -46,7 +47,8 @@ struct MenuBarLabel: View {
     // MARK: - Usage graphic
 
     private var pct: Double {
-        coordinator.quota.fiveHour?.usedPercentage ?? 0
+        guard let fh = coordinator.quota.fiveHour, !fh.isExpired else { return 0 }
+        return fh.usedPercentage
     }
 
     @ViewBuilder
