@@ -11,7 +11,7 @@ struct SettingsSection: View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Settings").font(.headline)
 
-            Text("Menu bar").font(.subheadline).foregroundStyle(.secondary)
+            Text("Menu bar").font(.subheadline).foregroundStyle(.black)
             VStack(alignment: .leading, spacing: 4) {
                 Text("Show Claude Code status")
                 Picker("", selection: $preferences.statusIconMode) {
@@ -36,7 +36,7 @@ struct SettingsSection: View {
 
             Divider()
 
-            Text("Status notifications").font(.subheadline).foregroundStyle(.secondary)
+            Text("Status notifications").font(.subheadline).foregroundStyle(.black)
             Toggle("Recovered", isOn: $preferences.notifyStatusRecovered)
             Toggle("Degraded / maintenance", isOn: $preferences.notifyStatusMinor)
             Toggle("Partial outage", isOn: $preferences.notifyStatusMajor)
@@ -44,7 +44,7 @@ struct SettingsSection: View {
 
             Divider()
 
-            Text("Session renewal").font(.subheadline).foregroundStyle(.secondary)
+            Text("Session renewal").font(.subheadline).foregroundStyle(.black)
             VStack(alignment: .leading, spacing: 4) {
                 Text("Notify on 5h window reset")
                 Picker("", selection: $preferences.sessionRenewNotify) {
@@ -79,7 +79,7 @@ struct SettingsSection: View {
 
             Link("See code on Github",
                  destination: URL(string: "https://github.com/elliotykim/claudewatch")!)
-                .font(.caption).foregroundStyle(.secondary)
+                .font(.caption).foregroundStyle(.black)
         }
     }
 

@@ -35,12 +35,12 @@ struct StatusSection: View {
                 Spacer()
                 if let last = coordinator.status.lastCheckedAt {
                     Text(UsageSection.relative(last))
-                        .font(.caption2).foregroundStyle(.secondary)
+                        .font(.caption2).foregroundStyle(.black)
                 }
             }
 
             if let err = coordinator.status.lastError {
-                Text(err).font(.caption2).foregroundStyle(.red)
+                Text(err).font(.caption2).foregroundStyle(.black)
             }
         }
         .onReceive(timer) { tick = $0 }

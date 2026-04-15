@@ -36,7 +36,7 @@ struct UsageSection: View {
                 VStack(alignment: .leading, spacing: 6) {
                     Text("No usage data yet").font(.subheadline).bold()
                     Text("Configure the statusline hook in Claude Code to see your subscription usage here.")
-                        .font(.caption).foregroundStyle(.secondary)
+                        .font(.caption).foregroundStyle(.black)
                 }
                 .padding(8)
                 .background(Color.yellow.opacity(0.15))
@@ -45,17 +45,17 @@ struct UsageSection: View {
 
             if let updatedAt = coordinator.quota.updatedAt {
                 Text("Updated \(Self.relative(updatedAt))")
-                    .font(.caption2).foregroundStyle(.secondary)
+                    .font(.caption2).foregroundStyle(.black)
             }
 
             if hasExpiredWindow {
                 Text("Usage will update next time Claude Code is used.")
-                    .font(.caption2).foregroundStyle(.tertiary)
+                    .font(.caption2).foregroundStyle(.black)
             }
 
             if let err = coordinator.quota.lastError {
                 Text(err)
-                    .font(.caption2).foregroundStyle(.secondary)
+                    .font(.caption2).foregroundStyle(.black)
             }
         }
     }
@@ -77,13 +77,13 @@ struct UsageSection: View {
                     Text(label).font(.subheadline)
                     if let resets = resetsAt {
                         Text("Resets \(Self.relative(resets))")
-                            .font(.caption2).foregroundStyle(.secondary)
+                            .font(.caption2).foregroundStyle(.black)
                     }
                 }
                 Spacer()
                 Text("\(Int(displayPct))% used")
                     .font(.subheadline).monospacedDigit()
-                    .foregroundStyle(dimmed ? .gray : .white)
+                    .foregroundStyle(.black)
             }
             ProgressView(value: min(displayPct, 100), total: 100)
                 .tint(tint)
