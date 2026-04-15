@@ -416,7 +416,11 @@ else
     out+="${sep}${white}7d${reset} ${dim}-${reset}"
 fi
 
-# ===== Claude Code Status (from components API, cached 5min TTL) =====
+# ===== Claude Code Status (from summary API, cached 5min TTL) =====
+# Shows the Claude Code component status as the primary label, and appends
+# the page-wide rollup in parentheses when it disagrees — so broad Anthropic
+# incidents (API, console, etc.) that aren't yet scoped to the Claude Code
+# component on the status page still surface in the statusline.
 status_cache_file="/tmp/claude/statusline-service-status-cache.json"
 status_cache_max_age=300  # 5 minutes
 
@@ -435,8 +439,8 @@ fi
 
 if $status_needs_refresh; then
     touch "$status_cache_file" 2>/dev/null
-    status_response=$(curl -s --max-time 5 "https://status.claude.com/api/v2/components.json" 2>/dev/null)
-    if [ -n "$status_response" ] && echo "$status_response" | jq -e '.components' >/dev/null 2>&1; then
+    status_response=$(curl -s --max-time 5 "https://status.claude.com/api/v2/summary.json" 2>/dev/null)
+    if [ -n "$status_response" ] && echo "$status_response" | jq -e '.components and .status.indicator' >/dev/null 2>&1; then
         status_data="$status_response"
         echo "$status_response" > "$status_cache_file"
     fi
@@ -444,16 +448,37 @@ fi
 
 if [ -n "$status_data" ]; then
     cc_status=$(echo "$status_data" | jq -r '.components[] | select(.name == "Claude Code") | .status // empty')
-    if [ -n "$cc_status" ]; then
-        case "$cc_status" in
-            operational)           status_color="$green";  status_label="ok" ;;
-            degraded_performance)  status_color="$yellow"; status_label="degraded" ;;
-            partial_outage)        status_color="$orange"; status_label="partial" ;;
-            major_outage)          status_color="$red";    status_label="major" ;;
-            under_maintenance)     status_color="$yellow"; status_label="maintenance" ;;
-            *)                     status_color="$dim";    status_label="$cc_status" ;;
-        esac
-        out+="${sep}${white}status${reset} ${status_color}${status_label}${reset}"
+    overall_indicator=$(echo "$status_data" | jq -r '.status.indicator // empty')
+
+    cc_color=""; cc_label=""
+    case "$cc_status" in
+        operational)           cc_color="$green";  cc_label="ok" ;;
+        degraded_performance)  cc_color="$yellow"; cc_label="degraded" ;;
+        partial_outage)        cc_color="$orange"; cc_label="partial" ;;
+        major_outage)          cc_color="$red";    cc_label="major" ;;
+        under_maintenance)     cc_color="$yellow"; cc_label="maintenance" ;;
+        "")                    ;;
+        *)                     cc_color="$dim";    cc_label="$cc_status" ;;
+    esac
+
+    overall_color=""; overall_label=""
+    case "$overall_indicator" in
+        none)     overall_color="$green";  overall_label="ok" ;;
+        minor)    overall_color="$yellow"; overall_label="degraded" ;;
+        major)    overall_color="$orange"; overall_label="major" ;;
+        critical) overall_color="$red";    overall_label="critical" ;;
+        "")       ;;
+        *)        overall_color="$dim";    overall_label="$overall_indicator" ;;
+    esac
+
+    if [ -n "$cc_label" ]; then
+        out+="${sep}${white}status${reset} ${cc_color}${cc_label}${reset}"
+        if [ -n "$overall_label" ] && [ "$overall_label" != "$cc_label" ]; then
+            out+=" ${dim}(overall:${reset} ${overall_color}${overall_label}${dim})${reset}"
+        fi
+    elif [ -n "$overall_label" ]; then
+        # Component missing but rollup present — show overall as fallback.
+        out+="${sep}${white}status${reset} ${dim}(overall:${reset} ${overall_color}${overall_label}${dim})${reset}"
     fi
 fi
 
