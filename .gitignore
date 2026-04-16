@@ -5,6 +5,9 @@ DerivedData/
 *.xcworkspace/xcuserdata/
 xcuserdata/
 
+# JetBrains
+.idea/
+
 # macOS
 .DS_Store
 *.swp

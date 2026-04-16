@@ -17,6 +17,7 @@ Native macOS menu-bar app for tracking Claude Code usage and Anthropic service s
 # One-time: point xcode-select at the full Xcode install if needed.
 sudo xcode-select -s /Applications/Xcode.app
 sudo xcodebuild -license accept
+xcodebuild -runFirstLaunch
 
 # Build the app:
 xcodebuild -project ClaudeWatch.xcodeproj -scheme ClaudeWatch -configuration Debug build
