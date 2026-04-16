@@ -8,7 +8,11 @@
 	<true/>
 	<key>com.apple.security.temporary-exception.files.home-relative-path.read-only</key>
 	<array>
-		<string>/.claude/</string>
+		<!-- Narrowed from /.claude/ (whole directory) to the single file the
+		     app actually reads. QuotaSyncClient.swift only calls
+		     FileManager.default.contents(atPath:) on this exact path, so the
+		     directory-wide exception was broader than necessary. -->
+		<string>/.claude/claudewatch-usage.json</string>
 	</array>
 </dict>
 </plist>
