@@ -59,12 +59,4 @@ enum Severity: String, CaseIterable, Codable, Comparable {
         }
     }
 
-    var shortLabel: String {
-        switch self {
-        case .operational: return "Operational"
-        case .minor: return "Degraded"
-        case .major: return "Partial Outage"
-        case .critical: return "Major Outage"
-        }
-    }
 }

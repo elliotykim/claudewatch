@@ -36,6 +36,30 @@ struct SettingsSection: View {
 
             Divider()
 
+            Text("Colors").font(.subheadline).foregroundStyle(.secondary)
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Menu bar graphic")
+                Picker("", selection: $preferences.graphicColor) {
+                    ForEach(GraphicColor.allCases, id: \.self) { color in
+                        Text(color.label).tag(color)
+                    }
+                }
+                .pickerStyle(.menu)
+                .labelsHidden()
+            }
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Usage bars")
+                Picker("", selection: $preferences.progressBarColor) {
+                    ForEach(BarColor.allCases, id: \.self) { color in
+                        Text(color.label).tag(color)
+                    }
+                }
+                .pickerStyle(.menu)
+                .labelsHidden()
+            }
+
+            Divider()
+
             Text("Notifications").font(.subheadline).foregroundStyle(.secondary)
             Toggle("Recovered", isOn: $preferences.notifyStatusRecovered)
             Toggle("Degraded / maintenance", isOn: $preferences.notifyStatusMinor)
@@ -54,7 +78,7 @@ struct SettingsSection: View {
 
             Divider()
 
-            Text("Uptime history").font(.subheadline).foregroundStyle(.secondary)
+            Text("Uptime history graph").font(.subheadline).foregroundStyle(.secondary)
             VStack(alignment: .leading, spacing: 4) {
                 Picker("", selection: $preferences.uptimeHistory) {
                     ForEach(UptimeHistory.allCases, id: \.self) { h in

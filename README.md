@@ -6,6 +6,9 @@ Native macOS menu-bar app for tracking Claude Code usage and Anthropic service s
 
 - Subscription usage from `~/.claude/claudewatch-usage.json`, written by the Claude Code statusline hook.
 - Claude Code service health from `https://status.claude.com/api/v2/components.json`.
+- Color-coded uptime history bar (30/60/90 days) sourced from incident data and the official status page.
+- Customizable progress bar colors with dynamic, status-matching, and preset options.
+- Real-time relative timestamps with absolute tooltips on hover.
 - macOS 14 Sonoma+, Swift 5+/SwiftUI, sandboxed, zero external dependencies.
 
 ## Build
@@ -133,10 +136,10 @@ present, it takes precedence.
 ```
 ClaudeWatch/
   App/            ClaudeWatchApp, AppDelegate, Info.plist, entitlements
-  Models/         Severity, QuotaState, StatusState, Preferences
-  Services/       Quota file reader, status HTTP, notifications, Carbon hotkey
+  Models/         Severity, QuotaState, StatusState, Preferences, UptimeHistory
+  Services/       Quota file reader, status HTTP, uptime client, notifications, Carbon hotkey
   Coordinator/    AppCoordinator (timers, wake observer, threshold detection)
-  UI/             MenuBarLabel, PopoverRoot, Usage/Status/Settings sections, HotkeyRecorder
+  UI/             MenuBarLabel, PopoverRoot, Usage/Status/Uptime/Settings sections, HotkeyRecorder
 ClaudeWatchTests/
   QuotaSyncClientTests, StatusClientTests, MockURLProtocol
 ```
@@ -154,7 +157,21 @@ editable from the popover's Settings section. Changes take effect immediately.
 | Show 5h usage % | on | on/off |
 | Usage graphic | None | None, Mini bar, Ring gauge, Logo fill, Segmented dots, Arc gauge |
 
-### Status notifications
+### Colors
+
+| Setting | Default | Options |
+|---|---|---|
+| Menu bar graphic | Dynamic blue | Dynamic blue, Dynamic white, Dynamic black, Monochrome, Match status color, Blue, Indigo, Purple, Teal, Mint, Pink |
+| Usage bars | Dynamic | Dynamic, Match status color, Blue, Indigo, Purple, Teal, Mint, Pink |
+
+Menu bar graphic controls the color of the usage graphic in the menu bar
+(mini bar, ring, etc.). Usage bars controls the popover progress bars. Both
+are configured independently. Dynamic options shift through yellow/orange/red
+as usage increases; "Monochrome" uses the system primary color. Preset colors
+stay fixed. "Match status color" uses the current Claude Code service health
+color. The menu bar percentage text always uses dynamic coloring for readability.
+
+### Notifications
 
 Per-severity macOS notifications when Claude Code service status changes.
 
@@ -165,11 +182,19 @@ Per-severity macOS notifications when Claude Code service status changes.
 | Partial outage | on |
 | Major outage | on |
 
-### Session renewal
+| Setting | Default | Options |
+|---|---|---|
+| Session renewal | Off | Off, Always, When exhausted |
+
+### Uptime history
 
 | Setting | Default | Options |
 |---|---|---|
-| Notify on 5h window reset | Off | Off, Always, When exhausted |
+| Uptime history | 30 days | Off, 30 days, 60 days, 90 days |
+
+Shows a color-coded daily uptime bar for Claude Code below the status indicator.
+Daily severity is computed from incident data; the 90-day uptime percentage is
+scraped from the official status page.
 
 ### Polling intervals
 

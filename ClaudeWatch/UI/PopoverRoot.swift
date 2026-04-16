@@ -19,7 +19,7 @@ struct PopoverRoot: View {
             bottomBar
         }
         .frame(width: 320)
-        .onReceive(NotificationCenter.default.publisher(for: NSPopover.willShowNotification)) { _ in
+        .onReceive(NotificationCenter.default.publisher(for: NSPopover.didCloseNotification)) { _ in
             showingSettings = false
         }
     }
@@ -33,7 +33,7 @@ struct PopoverRoot: View {
             }
 
             Divider()
-            UsageSection(coordinator: coordinator)
+            UsageSection(coordinator: coordinator, preferences: preferences)
         }
         .padding(14)
     }
@@ -46,6 +46,7 @@ struct PopoverRoot: View {
             )
             .padding(14)
         }
+        .frame(minHeight: 400)
     }
 
     private var bottomBar: some View {

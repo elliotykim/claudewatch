@@ -13,11 +13,13 @@
 		AAAAAAAAAAAAAAAAAAAA0206 /* QuotaState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0106 /* QuotaState.swift */; };
 		AAAAAAAAAAAAAAAAAAAA0207 /* StatusState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0107 /* StatusState.swift */; };
 		AAAAAAAAAAAAAAAAAAAA0208 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0108 /* Preferences.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0209 /* UptimeHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0109 /* UptimeHistory.swift */; };
 		AAAAAAAAAAAAAAAAAAAA020C /* QuotaSyncClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA010C /* QuotaSyncClient.swift */; };
 		AAAAAAAAAAAAAAAAAAAA020D /* StatusClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA010D /* StatusClient.swift */; };
 		AAAAAAAAAAAAAAAAAAAA020E /* AppNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA010E /* AppNotifications.swift */; };
 		AAAAAAAAAAAAAAAAAAAA020F /* GlobalHotkey.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA010F /* GlobalHotkey.swift */; };
 		AAAAAAAAAAAAAAAAAAAA0210 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0110 /* AppCoordinator.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0211 /* UptimeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0111 /* UptimeClient.swift */; };
 		AAAAAAAAAAAAAAAAAAAA0212 /* MenuBarLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0112 /* MenuBarLabel.swift */; };
 		AAAAAAAAAAAAAAAAAAAA0213 /* PopoverRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0113 /* PopoverRoot.swift */; };
 		AAAAAAAAAAAAAAAAAAAA0214 /* UsageSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0114 /* UsageSection.swift */; };
@@ -25,8 +27,6 @@
 		AAAAAAAAAAAAAAAAAAAA0216 /* SettingsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0116 /* SettingsSection.swift */; };
 		AAAAAAAAAAAAAAAAAAAA0217 /* HotkeyRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0117 /* HotkeyRecorder.swift */; };
 		AAAAAAAAAAAAAAAAAAAA0220 /* ClaudeLogoShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0120 /* ClaudeLogoShape.swift */; };
-		AAAAAAAAAAAAAAAAAAAA0209 /* UptimeHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0109 /* UptimeHistory.swift */; };
-		AAAAAAAAAAAAAAAAAAAA0211 /* UptimeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0111 /* UptimeClient.swift */; };
 		AAAAAAAAAAAAAAAAAAAA0221 /* UptimeSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0121 /* UptimeSection.swift */; };
 		AAAAAAAAAAAAAAAAAAAA0251 /* QuotaSyncClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0151 /* QuotaSyncClientTests.swift */; };
 		AAAAAAAAAAAAAAAAAAAA0252 /* StatusClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0152 /* StatusClientTests.swift */; };
@@ -50,11 +50,13 @@
 		AAAAAAAAAAAAAAAAAAAA0106 /* QuotaState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotaState.swift; sourceTree = "<group>"; };
 		AAAAAAAAAAAAAAAAAAAA0107 /* StatusState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusState.swift; sourceTree = "<group>"; };
 		AAAAAAAAAAAAAAAAAAAA0108 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0109 /* UptimeHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UptimeHistory.swift; sourceTree = "<group>"; };
 		AAAAAAAAAAAAAAAAAAAA010C /* QuotaSyncClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotaSyncClient.swift; sourceTree = "<group>"; };
 		AAAAAAAAAAAAAAAAAAAA010D /* StatusClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusClient.swift; sourceTree = "<group>"; };
 		AAAAAAAAAAAAAAAAAAAA010E /* AppNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNotifications.swift; sourceTree = "<group>"; };
 		AAAAAAAAAAAAAAAAAAAA010F /* GlobalHotkey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalHotkey.swift; sourceTree = "<group>"; };
 		AAAAAAAAAAAAAAAAAAAA0110 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0111 /* UptimeClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UptimeClient.swift; sourceTree = "<group>"; };
 		AAAAAAAAAAAAAAAAAAAA0112 /* MenuBarLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarLabel.swift; sourceTree = "<group>"; };
 		AAAAAAAAAAAAAAAAAAAA0113 /* PopoverRoot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverRoot.swift; sourceTree = "<group>"; };
 		AAAAAAAAAAAAAAAAAAAA0114 /* UsageSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageSection.swift; sourceTree = "<group>"; };
@@ -64,8 +66,6 @@
 		AAAAAAAAAAAAAAAAAAAA0118 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AAAAAAAAAAAAAAAAAAAA0119 /* ClaudeWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClaudeWatch.entitlements; sourceTree = "<group>"; };
 		AAAAAAAAAAAAAAAAAAAA0120 /* ClaudeLogoShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeLogoShape.swift; sourceTree = "<group>"; };
-		AAAAAAAAAAAAAAAAAAAA0109 /* UptimeHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UptimeHistory.swift; sourceTree = "<group>"; };
-		AAAAAAAAAAAAAAAAAAAA0111 /* UptimeClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UptimeClient.swift; sourceTree = "<group>"; };
 		AAAAAAAAAAAAAAAAAAAA0121 /* UptimeSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UptimeSection.swift; sourceTree = "<group>"; };
 		AAAAAAAAAAAAAAAAAAAA0151 /* QuotaSyncClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotaSyncClientTests.swift; sourceTree = "<group>"; };
 		AAAAAAAAAAAAAAAAAAAA0152 /* StatusClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusClientTests.swift; sourceTree = "<group>"; };

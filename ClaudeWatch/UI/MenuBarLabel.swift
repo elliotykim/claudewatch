@@ -17,7 +17,7 @@ struct MenuBarLabel: View {
                     let displayPct = fh.isExpired ? 0.0 : fh.usedPercentage
                     Text("\(Int(displayPct))%")
                         .font(.system(size: 12, weight: .medium, design: .monospaced))
-                        .foregroundStyle(fh.isExpired ? Color.secondary : usageColor(displayPct))
+                        .foregroundStyle(fh.isExpired ? Color.secondary : Self.textColor(displayPct))
                 } else {
                     Text("—")
                         .font(.system(size: 12, weight: .medium))
@@ -77,7 +77,7 @@ struct MenuBarLabel: View {
                 .fill(Color.primary.opacity(0.15))
                 .frame(width: 30, height: 4)
             RoundedRectangle(cornerRadius: 1.5)
-                .fill(usageColor(pct))
+                .fill(graphicColor(pct))
                 .frame(width: max(1, 30 * min(pct, 100) / 100), height: 4)
         }
     }
@@ -90,7 +90,7 @@ struct MenuBarLabel: View {
                 .stroke(Color.primary.opacity(0.15), lineWidth: 2)
             Circle()
                 .trim(from: 0, to: min(pct, 100) / 100)
-                .stroke(usageColor(pct), style: StrokeStyle(lineWidth: 2, lineCap: .round))
+                .stroke(graphicColor(pct), style: StrokeStyle(lineWidth: 2, lineCap: .round))
                 .rotationEffect(.degrees(-90))
         }
         .frame(width: 12, height: 12)
@@ -108,7 +108,7 @@ struct MenuBarLabel: View {
                     VStack(spacing: 0) {
                         Spacer(minLength: 0)
                         ClaudeLogoShape()
-                            .fill(usageColor(pct))
+                            .fill(graphicColor(pct))
                             .frame(height: geo.size.height)
                             .frame(width: geo.size.width, height: fillHeight, alignment: .bottom)
                             .clipped()
@@ -126,7 +126,7 @@ struct MenuBarLabel: View {
         return HStack(spacing: 2) {
             ForEach(0..<total, id: \.self) { i in
                 RoundedRectangle(cornerRadius: 1)
-                    .fill(i < filled ? usageColor(pct) : Color.primary.opacity(0.15))
+                    .fill(i < filled ? graphicColor(pct) : Color.primary.opacity(0.15))
                     .frame(width: 4, height: 8)
             }
         }
@@ -142,18 +142,25 @@ struct MenuBarLabel: View {
                 startAngle: .degrees(135),
                 endAngle: .degrees(135 + 270 * min(pct, 100) / 100)
             )
-            .stroke(usageColor(pct), style: StrokeStyle(lineWidth: 2, lineCap: .round))
+            .stroke(graphicColor(pct), style: StrokeStyle(lineWidth: 2, lineCap: .round))
         }
         .frame(width: 14, height: 14)
     }
 
     // MARK: - Helpers
 
-    private func usageColor(_ pct: Double) -> Color {
+    private static func textColor(_ pct: Double) -> Color {
         if pct >= 90 { return .red }
         if pct >= 70 { return .orange }
         if pct >= 50 { return .yellow }
         return .primary
+    }
+
+    private func graphicColor(_ pct: Double) -> Color {
+        preferences.graphicColor.resolve(
+            usagePercent: pct,
+            severity: coordinator.status.severity
+        )
     }
 }
 

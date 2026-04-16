@@ -2,6 +2,7 @@ import SwiftUI
 
 struct UsageSection: View {
     @ObservedObject var coordinator: AppCoordinator
+    @ObservedObject var preferences: Preferences
 
     @State private var tick = Date()
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -83,7 +84,7 @@ struct UsageSection: View {
     @ViewBuilder
     private func usageRow(label: String, usedPercentage: Double, resetsAt: Date?, dimmed: Bool = false) -> some View {
         let displayPct = dimmed ? 0.0 : usedPercentage
-        let tint: Color = dimmed ? .gray : Self.color(for: usedPercentage)
+        let tint: Color = dimmed ? .gray : barColor(for: usedPercentage)
         VStack(alignment: .leading, spacing: 2) {
             HStack {
                 VStack(alignment: .leading, spacing: 1) {
@@ -108,11 +109,11 @@ struct UsageSection: View {
 
     // MARK: - Helpers
 
-    private static func color(for pct: Double) -> Color {
-        if pct >= 90 { return .red }
-        if pct >= 70 { return .orange }
-        if pct >= 50 { return .yellow }
-        return .blue
+    private func barColor(for pct: Double) -> Color {
+        preferences.progressBarColor.resolve(
+            usagePercent: pct,
+            severity: coordinator.status.severity
+        )
     }
 
     private static let relativeFormatter: RelativeDateTimeFormatter = {
