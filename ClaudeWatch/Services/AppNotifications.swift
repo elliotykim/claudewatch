@@ -28,7 +28,7 @@ final class AppNotifications {
         guard allowed else { return }
 
         post(
-            id: "status-\(severity.rawValue)-\(Int(Date().timeIntervalSince1970))",
+            id: "status-\(severity.rawValue)-\(Int(Date().timeIntervalSince1970 * 1000))",
             title: "Claude Code: \(severity.label)",
             body: description
         )
@@ -45,7 +45,7 @@ final class AppNotifications {
         }
 
         post(
-            id: "session-renew-\(Int(Date().timeIntervalSince1970))",
+            id: "session-renew-\(Int(Date().timeIntervalSince1970 * 1000))",
             title: "Claude Code: 5-hour window reset",
             body: "You're back to full capacity in the rolling 5-hour window."
         )

@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// Statuspage component severity, mapped from `component.status`.
-enum Severity: String, CaseIterable, Codable {
+enum Severity: String, CaseIterable, Codable, Comparable {
     case operational
     case minor
     case major
@@ -16,6 +16,29 @@ enum Severity: String, CaseIterable, Codable {
         case "major_outage": self = .critical
         default: self = .operational
         }
+    }
+
+    /// Map a Statuspage incident `impact` value to a severity.
+    init(incidentImpact: String) {
+        switch incidentImpact.lowercased() {
+        case "minor": self = .minor
+        case "major": self = .major
+        case "critical": self = .critical
+        default: self = .operational
+        }
+    }
+
+    private var order: Int {
+        switch self {
+        case .operational: return 0
+        case .minor: return 1
+        case .major: return 2
+        case .critical: return 3
+        }
+    }
+
+    static func < (lhs: Severity, rhs: Severity) -> Bool {
+        lhs.order < rhs.order
     }
 
     var color: Color {
@@ -33,6 +56,15 @@ enum Severity: String, CaseIterable, Codable {
         case .minor: return "Minor incident"
         case .major: return "Major incident"
         case .critical: return "Critical incident"
+        }
+    }
+
+    var shortLabel: String {
+        switch self {
+        case .operational: return "Operational"
+        case .minor: return "Degraded"
+        case .major: return "Partial Outage"
+        case .critical: return "Major Outage"
         }
     }
 }

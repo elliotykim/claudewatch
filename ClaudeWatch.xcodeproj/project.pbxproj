@@ -25,6 +25,9 @@
 		AAAAAAAAAAAAAAAAAAAA0216 /* SettingsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0116 /* SettingsSection.swift */; };
 		AAAAAAAAAAAAAAAAAAAA0217 /* HotkeyRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0117 /* HotkeyRecorder.swift */; };
 		AAAAAAAAAAAAAAAAAAAA0220 /* ClaudeLogoShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0120 /* ClaudeLogoShape.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0209 /* UptimeHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0109 /* UptimeHistory.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0211 /* UptimeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0111 /* UptimeClient.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0221 /* UptimeSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0121 /* UptimeSection.swift */; };
 		AAAAAAAAAAAAAAAAAAAA0251 /* QuotaSyncClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0151 /* QuotaSyncClientTests.swift */; };
 		AAAAAAAAAAAAAAAAAAAA0252 /* StatusClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0152 /* StatusClientTests.swift */; };
 		AAAAAAAAAAAAAAAAAAAA0253 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0153 /* MockURLProtocol.swift */; };
@@ -61,6 +64,9 @@
 		AAAAAAAAAAAAAAAAAAAA0118 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AAAAAAAAAAAAAAAAAAAA0119 /* ClaudeWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClaudeWatch.entitlements; sourceTree = "<group>"; };
 		AAAAAAAAAAAAAAAAAAAA0120 /* ClaudeLogoShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeLogoShape.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0109 /* UptimeHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UptimeHistory.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0111 /* UptimeClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UptimeClient.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0121 /* UptimeSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UptimeSection.swift; sourceTree = "<group>"; };
 		AAAAAAAAAAAAAAAAAAAA0151 /* QuotaSyncClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotaSyncClientTests.swift; sourceTree = "<group>"; };
 		AAAAAAAAAAAAAAAAAAAA0152 /* StatusClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusClientTests.swift; sourceTree = "<group>"; };
 		AAAAAAAAAAAAAAAAAAAA0153 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
@@ -135,6 +141,7 @@
 				AAAAAAAAAAAAAAAAAAAA0106 /* QuotaState.swift */,
 				AAAAAAAAAAAAAAAAAAAA0107 /* StatusState.swift */,
 				AAAAAAAAAAAAAAAAAAAA0108 /* Preferences.swift */,
+				AAAAAAAAAAAAAAAAAAAA0109 /* UptimeHistory.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -146,6 +153,7 @@
 				AAAAAAAAAAAAAAAAAAAA010D /* StatusClient.swift */,
 				AAAAAAAAAAAAAAAAAAAA010E /* AppNotifications.swift */,
 				AAAAAAAAAAAAAAAAAAAA010F /* GlobalHotkey.swift */,
+				AAAAAAAAAAAAAAAAAAAA0111 /* UptimeClient.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -168,6 +176,7 @@
 				AAAAAAAAAAAAAAAAAAAA0116 /* SettingsSection.swift */,
 				AAAAAAAAAAAAAAAAAAAA0117 /* HotkeyRecorder.swift */,
 				AAAAAAAAAAAAAAAAAAAA0120 /* ClaudeLogoShape.swift */,
+				AAAAAAAAAAAAAAAAAAAA0121 /* UptimeSection.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -297,6 +306,9 @@
 				AAAAAAAAAAAAAAAAAAAA0216 /* SettingsSection.swift in Sources */,
 				AAAAAAAAAAAAAAAAAAAA0217 /* HotkeyRecorder.swift in Sources */,
 				AAAAAAAAAAAAAAAAAAAA0220 /* ClaudeLogoShape.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA0209 /* UptimeHistory.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA0211 /* UptimeClient.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA0221 /* UptimeSection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

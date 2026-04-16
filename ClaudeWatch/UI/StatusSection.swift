@@ -3,12 +3,11 @@ import SwiftUI
 struct StatusSection: View {
     @ObservedObject var coordinator: AppCoordinator
 
-    // Ticks every 30s so the "Last checked" relative time stays fresh.
     @State private var tick = Date()
-    private let timer = Timer.publish(every: 30, on: .main, in: .common).autoconnect()
+    private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
-        let _ = tick   // force redraw on each timer tick
+        let _ = tick
         VStack(alignment: .leading, spacing: 4) {
             HStack {
                 Text("Claude Code status").font(.headline)
@@ -36,6 +35,7 @@ struct StatusSection: View {
                 if let last = coordinator.status.lastCheckedAt {
                     Text(UsageSection.relative(last))
                         .font(.caption2).foregroundStyle(.secondary)
+                        .help(UsageSection.absoluteFormatter.string(from: last))
                 }
             }
 

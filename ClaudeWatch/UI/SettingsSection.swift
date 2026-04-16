@@ -36,20 +36,29 @@ struct SettingsSection: View {
 
             Divider()
 
-            Text("Status notifications").font(.subheadline).foregroundStyle(.secondary)
+            Text("Notifications").font(.subheadline).foregroundStyle(.secondary)
             Toggle("Recovered", isOn: $preferences.notifyStatusRecovered)
             Toggle("Degraded / maintenance", isOn: $preferences.notifyStatusMinor)
             Toggle("Partial outage", isOn: $preferences.notifyStatusMajor)
             Toggle("Major outage", isOn: $preferences.notifyStatusCritical)
-
-            Divider()
-
-            Text("Session renewal").font(.subheadline).foregroundStyle(.secondary)
             VStack(alignment: .leading, spacing: 4) {
-                Text("Notify on 5h window reset")
+                Text("Session renewal")
                 Picker("", selection: $preferences.sessionRenewNotify) {
                     ForEach(SessionRenewNotify.allCases, id: \.self) { mode in
                         Text(mode.label).tag(mode)
+                    }
+                }
+                .pickerStyle(.menu)
+                .labelsHidden()
+            }
+
+            Divider()
+
+            Text("Uptime history").font(.subheadline).foregroundStyle(.secondary)
+            VStack(alignment: .leading, spacing: 4) {
+                Picker("", selection: $preferences.uptimeHistory) {
+                    ForEach(UptimeHistory.allCases, id: \.self) { h in
+                        Text(h.label).tag(h)
                     }
                 }
                 .pickerStyle(.menu)

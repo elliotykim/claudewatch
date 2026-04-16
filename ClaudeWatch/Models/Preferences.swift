@@ -50,6 +50,29 @@ enum SessionRenewNotify: String, CaseIterable {
     }
 }
 
+enum UptimeHistory: String, CaseIterable {
+    case off
+    case thirtyDays
+    case sixtyDays
+    case ninetyDays
+
+    var days: Int {
+        switch self {
+        case .off: return 0
+        case .thirtyDays: return 30
+        case .sixtyDays: return 60
+        case .ninetyDays: return 90
+        }
+    }
+
+    var label: String {
+        switch self {
+        case .off: return "Off"
+        default: return "\(days) days"
+        }
+    }
+}
+
 /// User preferences backed by `UserDefaults`. Observed by SwiftUI views and the
 /// AppCoordinator so changes take effect immediately (timer rescheduling, etc.).
 @MainActor
@@ -74,4 +97,9 @@ final class Preferences: ObservableObject {
     // Hotkey: Carbon keyCode + modifier mask (cmd|shift|opt|ctrl bits per Carbon).
     @AppStorage("hotkeyKeyCode")  var hotkeyKeyCode: Int = 8        // 'c' key
     @AppStorage("hotkeyModifiers") var hotkeyModifiers: Int = 0x0900 // cmd | option
+
+    // Uptime history
+    // Default must match StatusComponent.claudeCodeID; stored as a raw string
+    // because @AppStorage default values must be compile-time constants.
+    @AppStorage("uptimeHistory") var uptimeHistory: UptimeHistory = .thirtyDays
 }

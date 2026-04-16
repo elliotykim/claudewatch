@@ -27,6 +27,11 @@ struct PopoverRoot: View {
     private var mainView: some View {
         VStack(alignment: .leading, spacing: 12) {
             StatusSection(coordinator: coordinator)
+
+            if preferences.uptimeHistory != .off && !coordinator.uptime.isEmpty {
+                UptimeSection(coordinator: coordinator, preferences: preferences)
+            }
+
             Divider()
             UsageSection(coordinator: coordinator)
         }

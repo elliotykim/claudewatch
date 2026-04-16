@@ -12,11 +12,13 @@ final class AppCoordinator: ObservableObject {
 
     @Published private(set) var quota: QuotaState = .empty
     @Published private(set) var status: StatusState = .unknown
+    @Published private(set) var uptime: [ComponentUptime] = []
 
     let preferences = Preferences.shared
 
     private let quotaClient = QuotaSyncClient()
     private let statusClient = StatusClient()
+    private let uptimeClient = UptimeClient()
 
     private var quotaTimer: Timer?
     private var statusTimer: Timer?
@@ -37,6 +39,7 @@ final class AppCoordinator: ObservableObject {
 
         runQuotaSync()
         Task { await runStatusPoll() }
+        Task { await runUptimeFetch() }
     }
 
     func stop() {
@@ -116,6 +119,14 @@ final class AppCoordinator: ObservableObject {
         case .failure(let error):
             status.lastError = error.localizedDescription
             status.lastCheckedAt = Date()
+        }
+
+        await runUptimeFetch()
+    }
+
+    private func runUptimeFetch() async {
+        if case .success(let components) = await uptimeClient.fetch() {
+            uptime = components
         }
     }
 }

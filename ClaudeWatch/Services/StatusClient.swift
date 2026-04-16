@@ -10,7 +10,7 @@ struct StatusClient {
     init(
         session: URLSession = .shared,
         endpoint: URL = URL(string: "https://status.claude.com/api/v2/components.json")!,
-        componentID: String = "yyzkbfz2thpt"  // Claude Code
+        componentID: String = StatusComponent.claudeCodeID
     ) {
         self.session = session
         self.endpoint = endpoint

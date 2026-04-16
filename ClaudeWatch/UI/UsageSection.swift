@@ -3,6 +3,16 @@ import SwiftUI
 struct UsageSection: View {
     @ObservedObject var coordinator: AppCoordinator
 
+    @State private var tick = Date()
+    private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+
+    static let absoluteFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.dateStyle = .medium
+        f.timeStyle = .medium
+        return f
+    }()
+
     /// True when any displayed window has expired past its reset time.
     private var hasExpiredWindow: Bool {
         if coordinator.quota.fiveHour?.isExpired == true { return true }
@@ -10,6 +20,7 @@ struct UsageSection: View {
     }
 
     var body: some View {
+        let _ = tick
         VStack(alignment: .leading, spacing: 8) {
             Text("Your usage limits").font(.headline)
 
@@ -46,6 +57,7 @@ struct UsageSection: View {
             if let updatedAt = coordinator.quota.updatedAt {
                 Text("Updated \(Self.relative(updatedAt))")
                     .font(.caption2).foregroundStyle(.secondary)
+                    .help(Self.absoluteFormatter.string(from: updatedAt))
             }
 
             if hasExpiredWindow {
@@ -58,6 +70,7 @@ struct UsageSection: View {
                     .font(.caption2).foregroundStyle(.secondary)
             }
         }
+        .onReceive(timer) { tick = $0 }
     }
 
     // MARK: - Rows
@@ -79,6 +92,7 @@ struct UsageSection: View {
                         let verb = resets < Date() ? "Reset" : "Resets"
                         Text("\(verb) \(Self.relative(resets))")
                             .font(.caption2).foregroundStyle(.secondary)
+                            .help(Self.absoluteFormatter.string(from: resets))
                     }
                 }
                 Spacer()
