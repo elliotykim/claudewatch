@@ -17,7 +17,7 @@ struct MenuBarLabel: View {
                     let displayPct = fh.isExpired ? 0.0 : fh.usedPercentage
                     Text("\(Int(displayPct))%")
                         .font(.system(size: 12, weight: .medium, design: .monospaced))
-                        .foregroundStyle(fh.isExpired ? Color.secondary : Self.textColor(displayPct))
+                        .foregroundStyle(fh.isExpired ? Color.secondary : Color.primary)
                 } else {
                     Text("—")
                         .font(.system(size: 12, weight: .medium))
@@ -148,13 +148,6 @@ struct MenuBarLabel: View {
     }
 
     // MARK: - Helpers
-
-    private static func textColor(_ pct: Double) -> Color {
-        if pct >= 90 { return .red }
-        if pct >= 70 { return .orange }
-        if pct >= 50 { return .yellow }
-        return .primary
-    }
 
     private func graphicColor(_ pct: Double) -> Color {
         preferences.graphicColor.resolve(
