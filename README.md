@@ -45,7 +45,7 @@ used in the terminal**; ClaudeWatch has no way to fetch it independently.
 ### Installing the statusline hook
 
 The included `statusline.sh` script is a Claude Code
-[statusline](https://docs.anthropic.com/en/docs/claude-code/status-bar)
+[statusline](https://code.claude.com/docs/en/statusline)
 hook that serves two purposes:
 
 1. **Feeds ClaudeWatch** — each time the statusline renders, the script writes
