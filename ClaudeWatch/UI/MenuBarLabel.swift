@@ -13,16 +13,7 @@ struct MenuBarLabel: View {
                     .frame(width: 14, height: 14)
             }
             if preferences.showUsageInMenuBar {
-                if let fh = coordinator.quota.fiveHour {
-                    let displayPct = fh.isExpired ? 0.0 : fh.usedPercentage
-                    Text("\(Int(displayPct))%")
-                        .font(.system(size: 12, weight: .medium, design: .monospaced))
-                        .foregroundStyle(fh.isExpired ? Color.secondary : Color.primary)
-                } else {
-                    Text("—")
-                        .font(.system(size: 12, weight: .medium))
-                        .foregroundStyle(.secondary)
-                }
+                usagePercentages
             }
             usageGraphic
             if !preferences.showUsageInMenuBar && !showStatusIcon
@@ -36,6 +27,45 @@ struct MenuBarLabel: View {
         .fixedSize()
     }
 
+    // MARK: - Usage text
+
+    /// When multiple accounts are configured and the preference is on, render
+    /// one percentage per account separated by `/`. Otherwise show a single
+    /// percentage (the aggregate max — same as single-account behavior).
+    @ViewBuilder
+    private var usagePercentages: some View {
+        let entries = coordinator.fiveHourByAccount
+        if preferences.showAllAccountsInMenuBar && entries.count > 1 {
+            HStack(spacing: 3) {
+                ForEach(Array(entries.enumerated()), id: \.element.account.id) { index, entry in
+                    if index > 0 {
+                        Text("/")
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundStyle(.secondary)
+                    }
+                    percentageText(entry.window)
+                }
+            }
+        } else {
+            percentageText(coordinator.aggregateFiveHour)
+        }
+    }
+
+    @ViewBuilder
+    private func percentageText(_ window: QuotaState.Window?) -> some View {
+        if let w = window {
+            let expired = w.isExpired
+            let displayPct = expired ? 0.0 : w.usedPercentage
+            Text("\(Int(displayPct))%")
+                .font(.system(size: 12, weight: .medium, design: .monospaced))
+                .foregroundStyle(expired ? Color.secondary : Color.primary)
+        } else {
+            Text("—")
+                .font(.system(size: 12, weight: .medium))
+                .foregroundStyle(.secondary)
+        }
+    }
+
     private var showStatusIcon: Bool {
         switch preferences.statusIconMode {
         case .always:          return true
@@ -47,8 +77,7 @@ struct MenuBarLabel: View {
     // MARK: - Usage graphic
 
     private var pct: Double {
-        guard let fh = coordinator.quota.fiveHour, !fh.isExpired else { return 0 }
-        return fh.usedPercentage
+        coordinator.aggregateFiveHour?.usedPercentage ?? 0
     }
 
     @ViewBuilder

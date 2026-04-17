@@ -31,6 +31,9 @@
 		AAAAAAAAAAAAAAAAAAAA0251 /* QuotaSyncClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0151 /* QuotaSyncClientTests.swift */; };
 		AAAAAAAAAAAAAAAAAAAA0252 /* StatusClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0152 /* StatusClientTests.swift */; };
 		AAAAAAAAAAAAAAAAAAAA0253 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0153 /* MockURLProtocol.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0222 /* TrackedAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0122 /* TrackedAccount.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0223 /* AccountsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0123 /* AccountsSection.swift */; };
+		AAAAAAAAAAAAAAAAAAAA0254 /* PreferencesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAAAAAAAAAAAAAAAAAA0154 /* PreferencesTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +73,9 @@
 		AAAAAAAAAAAAAAAAAAAA0151 /* QuotaSyncClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotaSyncClientTests.swift; sourceTree = "<group>"; };
 		AAAAAAAAAAAAAAAAAAAA0152 /* StatusClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusClientTests.swift; sourceTree = "<group>"; };
 		AAAAAAAAAAAAAAAAAAAA0153 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0122 /* TrackedAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedAccount.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0123 /* AccountsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsSection.swift; sourceTree = "<group>"; };
+		AAAAAAAAAAAAAAAAAAAA0154 /* PreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesTests.swift; sourceTree = "<group>"; };
 		AAAAAAAAAAAAAAAAAAAA01F0 /* ClaudeWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClaudeWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAAAAAAAAAAAAAAAAAAA01F1 /* ClaudeWatchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClaudeWatchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -119,6 +125,7 @@
 				AAAAAAAAAAAAAAAAAAAA0151 /* QuotaSyncClientTests.swift */,
 				AAAAAAAAAAAAAAAAAAAA0152 /* StatusClientTests.swift */,
 				AAAAAAAAAAAAAAAAAAAA0153 /* MockURLProtocol.swift */,
+				AAAAAAAAAAAAAAAAAAAA0154 /* PreferencesTests.swift */,
 			);
 			path = ClaudeWatchTests;
 			sourceTree = "<group>";
@@ -142,6 +149,7 @@
 				AAAAAAAAAAAAAAAAAAAA0107 /* StatusState.swift */,
 				AAAAAAAAAAAAAAAAAAAA0108 /* Preferences.swift */,
 				AAAAAAAAAAAAAAAAAAAA0109 /* UptimeHistory.swift */,
+				AAAAAAAAAAAAAAAAAAAA0122 /* TrackedAccount.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -177,6 +185,7 @@
 				AAAAAAAAAAAAAAAAAAAA0117 /* HotkeyRecorder.swift */,
 				AAAAAAAAAAAAAAAAAAAA0120 /* ClaudeLogoShape.swift */,
 				AAAAAAAAAAAAAAAAAAAA0121 /* UptimeSection.swift */,
+				AAAAAAAAAAAAAAAAAAAA0123 /* AccountsSection.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -309,6 +318,8 @@
 				AAAAAAAAAAAAAAAAAAAA0209 /* UptimeHistory.swift in Sources */,
 				AAAAAAAAAAAAAAAAAAAA0211 /* UptimeClient.swift in Sources */,
 				AAAAAAAAAAAAAAAAAAAA0221 /* UptimeSection.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA0222 /* TrackedAccount.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA0223 /* AccountsSection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,6 +330,7 @@
 				AAAAAAAAAAAAAAAAAAAA0251 /* QuotaSyncClientTests.swift in Sources */,
 				AAAAAAAAAAAAAAAAAAAA0252 /* StatusClientTests.swift in Sources */,
 				AAAAAAAAAAAAAAAAAAAA0253 /* MockURLProtocol.swift in Sources */,
+				AAAAAAAAAAAAAAAAAAAA0254 /* PreferencesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

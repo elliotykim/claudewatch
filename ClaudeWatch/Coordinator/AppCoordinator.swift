@@ -5,18 +5,17 @@ import AppKit
 /// Owns the timers and observers that drive the app: subscription usage file
 /// poll, status poll, sleep/wake refresh, threshold/status notifications.
 ///
-/// Subscription usage comes from `~/.claude/claudewatch-usage.json`,
-/// written by the Claude Code statusline hook.
+/// Subscription usage comes from each tracked account's `claudewatch-usage.json`
+/// (written by the Claude Code statusline hook per `CLAUDE_CONFIG_DIR`).
 @MainActor
 final class AppCoordinator: ObservableObject {
 
-    @Published private(set) var quota: QuotaState = .empty
+    @Published private(set) var quotaByAccount: [UUID: QuotaState] = [:]
     @Published private(set) var status: StatusState = .unknown
     @Published private(set) var uptime: [ComponentUptime] = []
 
     let preferences = Preferences.shared
 
-    private let quotaClient = QuotaSyncClient()
     private let statusClient = StatusClient()
     private let uptimeClient = UptimeClient()
 
@@ -26,8 +25,21 @@ final class AppCoordinator: ObservableObject {
     private var started = false
 
     private var lastStatusSeverity: Severity?
-    private var lastFiveHourResetsAt: Date?
-    private var lastFiveHourUsagePercent: Double?
+    private var lastFiveHourResetsAt: [UUID: Date] = [:]
+    private var lastFiveHourUsagePercent: [UUID: Double] = [:]
+
+    /// Aggregate 5-hour window across accounts: picks the one closest to the
+    /// limit (highest non-expired percentage), used by the menu bar graphic.
+    var aggregateFiveHour: QuotaState.Window? {
+        let active = quotaByAccount.values.compactMap { $0.fiveHour }.filter { !$0.isExpired }
+        return active.max(by: { $0.usedPercentage < $1.usedPercentage })
+    }
+
+    /// Per-account 5-hour windows in the order they appear in Preferences.
+    /// Used by the menu bar when displaying all accounts.
+    var fiveHourByAccount: [(account: TrackedAccount, window: QuotaState.Window?)] {
+        preferences.accounts.map { ($0, quotaByAccount[$0.id]?.fiveHour) }
+    }
 
     func start() {
         guard !started else { return }
@@ -58,6 +70,8 @@ final class AppCoordinator: ObservableObject {
         quotaTimer?.invalidate()
         statusTimer?.invalidate()
         scheduleTimers()
+        // Also re-read quotas so newly-added/removed accounts are reflected.
+        runQuotaSync()
     }
 
     // MARK: - Timers
@@ -90,22 +104,39 @@ final class AppCoordinator: ObservableObject {
     // MARK: - Work units
 
     private func runQuotaSync() {
-        if let state = quotaClient.read() {
-            // Detect 5-hour window renewal
-            if let newResetsAt = state.fiveHour?.resetsAt,
-               let oldResetsAt = lastFiveHourResetsAt,
-               newResetsAt != oldResetsAt {
-                AppNotifications.shared.sessionRenewed(
-                    previousUsagePercent: lastFiveHourUsagePercent
-                )
-            }
+        let accounts = preferences.accounts
+        var updated: [UUID: QuotaState] = [:]
 
-            lastFiveHourResetsAt = state.fiveHour?.resetsAt
-            lastFiveHourUsagePercent = state.fiveHour?.usedPercentage
-            quota = state
-        } else {
-            quota.lastError = "No data — is the statusline hook configured in Claude Code?"
+        for account in accounts {
+            if var state = QuotaSyncClient.read(account: account) {
+                if let newResetsAt = state.fiveHour?.resetsAt,
+                   let oldResetsAt = lastFiveHourResetsAt[account.id],
+                   newResetsAt != oldResetsAt {
+                    AppNotifications.shared.sessionRenewed(
+                        accountLabel: accounts.count > 1 ? account.label : nil,
+                        previousUsagePercent: lastFiveHourUsagePercent[account.id]
+                    )
+                }
+                if let resetsAt = state.fiveHour?.resetsAt {
+                    lastFiveHourResetsAt[account.id] = resetsAt
+                }
+                if let pct = state.fiveHour?.usedPercentage {
+                    lastFiveHourUsagePercent[account.id] = pct
+                }
+                updated[account.id] = state
+            } else {
+                var empty = QuotaState.empty
+                empty.lastError = "No data — is the statusline hook configured in Claude Code?"
+                updated[account.id] = empty
+            }
         }
+
+        // Drop state for accounts that were removed.
+        let activeIds = Set(accounts.map(\.id))
+        lastFiveHourResetsAt = lastFiveHourResetsAt.filter { activeIds.contains($0.key) }
+        lastFiveHourUsagePercent = lastFiveHourUsagePercent.filter { activeIds.contains($0.key) }
+
+        quotaByAccount = updated
     }
 
     private func runStatusPoll() async {

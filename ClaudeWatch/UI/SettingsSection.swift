@@ -23,6 +23,8 @@ struct SettingsSection: View {
                 .labelsHidden()
             }
             Toggle("Show 5h usage %", isOn: $preferences.showUsageInMenuBar)
+            Toggle("Show all accounts (e.g. 30% / 75%)", isOn: $preferences.showAllAccountsInMenuBar)
+                .disabled(!preferences.showUsageInMenuBar)
             VStack(alignment: .leading, spacing: 4) {
                 Text("Usage graphic")
                 Picker("", selection: $preferences.usageDisplayStyle) {
@@ -107,6 +109,10 @@ struct SettingsSection: View {
                 Spacer()
                 HotkeyRecorder(preferences: preferences, onChange: onChange)
             }
+
+            Divider()
+
+            AccountsSection(preferences: preferences, onChange: onChange)
 
             Divider()
 

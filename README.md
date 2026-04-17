@@ -132,6 +132,73 @@ present, it takes precedence.
 | `weekly[].used_percentage` | yes | 0–100, weekly usage for this bucket |
 | `weekly[].resets_at` | no | Unix epoch when this weekly window resets |
 
+## Multiple Claude accounts
+
+If you use two (or more) Claude accounts, ClaudeWatch can track each one's
+5-hour and weekly usage side by side. Because Claude Code stores credentials
+in a single keychain slot and writes a single `claudewatch-usage.json`,
+tracking multiple accounts requires giving each account its own
+`CLAUDE_CONFIG_DIR` — the standard Claude Code mechanism for isolating
+config per session.
+
+### Quick setup per account
+
+Use the bundled `setup-account.sh` script:
+
+```sh
+./setup-account.sh personal
+# creates ~/.claude-personal/ with symlinks back to ~/.claude for the
+# shareable items and copies ~/.claude.json so your project list /
+# MCP approvals carry over.
+```
+
+It will print the shell alias to add to `~/.zshrc`/`~/.bashrc` — paste it,
+reload your shell, then:
+
+```sh
+claude-personal   # complete the login; each account uses its own keychain
+                  # entry so your default ~/.claude login is untouched
+# → send any prompt so the statusline hook writes
+#   ~/.claude-personal/claudewatch-usage.json
+```
+
+Repeat for any additional accounts (`./setup-account.sh work`, etc.).
+
+### Register each account in ClaudeWatch
+
+- Open ClaudeWatch → click the gear → scroll to **Claude accounts**.
+- Click **Add account…**, pick the config dir (e.g. `~/.claude-work`).
+- Rename the label inline if you want something different.
+
+The popover now shows one usage section per account, stacked. The menu bar
+percentage shows the account closest to its 5-hour limit.
+
+### What's shared vs. separate
+
+| Path | Sharing |
+|---|---|
+| `settings.json`, `statusline*.sh`, `plugins/`, `skills/` | Safe to symlink — pure config/code |
+| `projects/`, `todos/`, `plans/`, `tasks/`, `history.jsonl`, `file-history/`, `shell-snapshots/` | Symlink for unified `/resume` history across accounts; leave separate for a clean split |
+| `claudewatch-usage.json` | **Must stay separate** — this is the data ClaudeWatch reads |
+| `sessions/`, `session-env/` | Must stay separate — live session state |
+| `policy-limits.json`, `stats-cache.json`, `mcp-needs-auth-cache.json`, `statsig/` | Must stay separate — per-account server data |
+| Credentials (macOS Keychain) | Auto-isolated by Claude Code per `CLAUDE_CONFIG_DIR`; don't touch |
+
+Project-level `.claude/` directories inside your repos are unaffected by
+`CLAUDE_CONFIG_DIR` — both accounts see the same project rules.
+
+### Troubleshooting
+
+- **Account shows "No data yet"**: run a Claude Code prompt in that account's
+  terminal (`claude-work`). The statusline hook writes the JSON on each
+  render; if the symlinked `settings.json` lacks the `statusLine` entry, the
+  hook won't run.
+- **Stale percentages after switching accounts**: each account only updates
+  while its `claude-<label>` session is active. Percentages reflect whatever
+  the last terminal session wrote.
+- **App can't read the alt directory**: re-add the account from Settings
+  to refresh the security-scoped bookmark.
+
 ## Layout
 
 ```

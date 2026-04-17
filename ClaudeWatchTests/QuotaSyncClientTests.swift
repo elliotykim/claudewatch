@@ -71,6 +71,28 @@ final class QuotaSyncClientTests: XCTestCase {
         XCTAssertNil(client.read())
     }
 
+    func testReadsFromArbitraryConfigDirViaAccount() {
+        // Simulate an alternate CLAUDE_CONFIG_DIR by writing the usage JSON
+        // into a temp dir and reading via a bookmark-less account (falls
+        // through to direct file access; no sandbox in the test host).
+        let tmpDir = NSTemporaryDirectory() + "claudewatch-dir-\(UUID().uuidString)"
+        try? FileManager.default.createDirectory(atPath: tmpDir, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(atPath: tmpDir) }
+
+        let usageFile = (tmpDir as NSString).appendingPathComponent("claudewatch-usage.json")
+        let json = #"{"five_hour":{"used_percentage":12},"updated_at":1713099000}"#
+        FileManager.default.createFile(atPath: usageFile, contents: json.data(using: .utf8))
+
+        let account = TrackedAccount(label: "Alt", configDir: tmpDir)
+        let state = QuotaSyncClient.read(account: account)
+        XCTAssertEqual(state?.fiveHour?.usedPercentage, 12)
+    }
+
+    func testMissingUsageFileForAccountReturnsNil() {
+        let account = TrackedAccount(label: "Ghost", configDir: "/tmp/definitely-not-here-\(UUID())")
+        XCTAssertNil(QuotaSyncClient.read(account: account))
+    }
+
     func testPartialDataOmitsNilWindows() {
         let json = """
         {

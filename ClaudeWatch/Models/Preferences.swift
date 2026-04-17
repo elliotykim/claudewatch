@@ -173,6 +173,7 @@ final class Preferences: ObservableObject {
     @AppStorage("quotaSyncIntervalSec")      var quotaSyncIntervalSec: Int = 30
     @AppStorage("statusPollIntervalSec")     var statusPollIntervalSec: Int = 300
     @AppStorage("showUsageInMenuBar")         var showUsageInMenuBar: Bool = true
+    @AppStorage("showAllAccountsInMenuBar")   var showAllAccountsInMenuBar: Bool = true
     @AppStorage("statusIconMode")             var statusIconMode: StatusIconMode = .always
     @AppStorage("usageDisplayStyle")         var usageDisplayStyle: UsageDisplayStyle = .none
 
@@ -197,4 +198,42 @@ final class Preferences: ObservableObject {
     // Default must match StatusComponent.claudeCodeID; stored as a raw string
     // because @AppStorage default values must be compile-time constants.
     @AppStorage("uptimeHistory") var uptimeHistory: UptimeHistory = .thirtyDays
+
+    // MARK: - Tracked accounts
+
+    /// Persisted list of Claude accounts whose usage ClaudeWatch tracks.
+    /// Backed by `UserDefaults` under `trackedAccounts` as JSON-encoded Data.
+    /// On first access with no stored value, a "Default" account pointing at
+    /// `~/.claude` is seeded so existing single-account users see no regression.
+    var accounts: [TrackedAccount] {
+        get {
+            guard let data = UserDefaults.standard.data(forKey: "trackedAccounts"),
+                  let decoded = try? JSONDecoder().decode([TrackedAccount].self, from: data),
+                  !decoded.isEmpty
+            else {
+                return [TrackedAccount.seedDefault()]
+            }
+            return decoded
+        }
+        set {
+            objectWillChange.send()
+            if let data = try? JSONEncoder().encode(newValue) {
+                UserDefaults.standard.set(data, forKey: "trackedAccounts")
+            }
+        }
+    }
+
+    func addAccount(_ account: TrackedAccount) {
+        var list = accounts
+        list.append(account)
+        accounts = list
+    }
+
+    func removeAccount(id: UUID) {
+        accounts = accounts.filter { $0.id != id }
+    }
+
+    func updateAccount(_ account: TrackedAccount) {
+        accounts = accounts.map { $0.id == account.id ? account : $0 }
+    }
 }

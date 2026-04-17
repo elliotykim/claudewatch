@@ -8,11 +8,15 @@
 	<true/>
 	<key>com.apple.security.temporary-exception.files.home-relative-path.read-only</key>
 	<array>
-		<!-- Narrowed from /.claude/ (whole directory) to the single file the
-		     app actually reads. QuotaSyncClient.swift only calls
-		     FileManager.default.contents(atPath:) on this exact path, so the
-		     directory-wide exception was broader than necessary. -->
+		<!-- Default account at ~/.claude is covered by this static exception
+		     (no bookmark needed). Additional CLAUDE_CONFIG_DIRs picked by the
+		     user in the Accounts settings pane are accessed via
+		     security-scoped bookmarks (see user-selected.read-only below). -->
 		<string>/.claude/claudewatch-usage.json</string>
 	</array>
+	<key>com.apple.security.files.user-selected.read-only</key>
+	<true/>
+	<key>com.apple.security.files.bookmarks.app-scope</key>
+	<true/>
 </dict>
 </plist>

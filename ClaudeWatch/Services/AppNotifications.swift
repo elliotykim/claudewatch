@@ -34,7 +34,7 @@ final class AppNotifications {
         )
     }
 
-    func sessionRenewed(previousUsagePercent: Double?) {
+    func sessionRenewed(accountLabel: String? = nil, previousUsagePercent: Double?) {
         switch Preferences.shared.sessionRenewNotify {
         case .off:
             return
@@ -44,9 +44,10 @@ final class AppNotifications {
             break
         }
 
+        let suffix = accountLabel.map { " (\($0))" } ?? ""
         post(
             id: "session-renew-\(Int(Date().timeIntervalSince1970 * 1000))",
-            title: "Claude Code: 5-hour window reset",
+            title: "Claude Code: 5-hour window reset\(suffix)",
             body: "You're back to full capacity in the rolling 5-hour window."
         )
     }

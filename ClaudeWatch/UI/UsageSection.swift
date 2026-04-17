@@ -4,6 +4,17 @@ struct UsageSection: View {
     @ObservedObject var coordinator: AppCoordinator
     @ObservedObject var preferences: Preferences
 
+    /// The account this section represents. When nil, the legacy single-account
+    /// mode is used (read the first/only tracked account). Showing the account
+    /// label in the header is driven by whether more than one account exists.
+    let account: TrackedAccount?
+
+    init(coordinator: AppCoordinator, preferences: Preferences, account: TrackedAccount? = nil) {
+        self.coordinator = coordinator
+        self.preferences = preferences
+        self.account = account
+    }
+
     @State private var tick = Date()
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
@@ -14,28 +25,43 @@ struct UsageSection: View {
         return f
     }()
 
+    private var quota: QuotaState {
+        if let account, let state = coordinator.quotaByAccount[account.id] {
+            return state
+        }
+        return coordinator.quotaByAccount.values.first ?? .empty
+    }
+
+    private var showLabel: Bool {
+        account != nil && preferences.accounts.count > 1
+    }
+
     /// True when any displayed window has expired past its reset time.
     private var hasExpiredWindow: Bool {
-        if coordinator.quota.fiveHour?.isExpired == true { return true }
-        return coordinator.quota.weeklyLimits.contains { $0.isExpired }
+        if quota.fiveHour?.isExpired == true { return true }
+        return quota.weeklyLimits.contains { $0.isExpired }
     }
 
     var body: some View {
         let _ = tick
         VStack(alignment: .leading, spacing: 8) {
-            Text("Your usage limits").font(.headline)
+            if showLabel, let label = account?.label {
+                Text(label).font(.headline)
+            } else {
+                Text("Your usage limits").font(.headline)
+            }
 
-            if let fh = coordinator.quota.fiveHour {
+            if let fh = quota.fiveHour {
                 usageRow(label: "Current session", window: fh)
             }
 
-            if !coordinator.quota.weeklyLimits.isEmpty {
+            if !quota.weeklyLimits.isEmpty {
                 Divider()
                 Text("Weekly limits").font(.subheadline).bold()
 
                 VStack(alignment: .leading, spacing: 6) {
-                    ForEach(coordinator.quota.weeklyLimits.indices, id: \.self) { i in
-                        let limit = coordinator.quota.weeklyLimits[i]
+                    ForEach(quota.weeklyLimits.indices, id: \.self) { i in
+                        let limit = quota.weeklyLimits[i]
                         usageRow(label: limit.label,
                                  usedPercentage: limit.usedPercentage,
                                  resetsAt: limit.resetsAt,
@@ -44,7 +70,7 @@ struct UsageSection: View {
                 }
             }
 
-            if coordinator.quota.fiveHour == nil && coordinator.quota.weeklyLimits.isEmpty {
+            if quota.fiveHour == nil && quota.weeklyLimits.isEmpty {
                 VStack(alignment: .leading, spacing: 6) {
                     Text("No usage data yet").font(.subheadline).bold()
                     Text("Configure the statusline hook in Claude Code to see your subscription usage here.")
@@ -55,7 +81,7 @@ struct UsageSection: View {
                 .clipShape(RoundedRectangle(cornerRadius: 6))
             }
 
-            if let updatedAt = coordinator.quota.updatedAt {
+            if let updatedAt = quota.updatedAt {
                 Text("Updated \(Self.relative(updatedAt))")
                     .font(.caption2).foregroundStyle(.secondary)
                     .help(Self.absoluteFormatter.string(from: updatedAt))
@@ -66,7 +92,7 @@ struct UsageSection: View {
                     .font(.caption2).foregroundStyle(.tertiary)
             }
 
-            if let err = coordinator.quota.lastError {
+            if let err = quota.lastError {
                 Text(err)
                     .font(.caption2).foregroundStyle(.secondary)
             }
