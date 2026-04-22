@@ -235,6 +235,17 @@ covers every retained event.
 |---|---|
 | Toggle popover | ⌘⌥C (rebindable) |
 
+## Credits
+
+The bundled `statusline.sh` is derived from
+[ClaudeCodeStatusLine](https://github.com/daniel3303/ClaudeCodeStatusLine)
+by [@daniel3303](https://github.com/daniel3303), used under its MIT
+license. Modifications: write resolved usage data to
+`~/.claude/claudewatch-usage.json` on every render so ClaudeWatch can
+read it; removed the upstream self-update check. See the file header
+and the [upstream LICENSE](https://github.com/daniel3303/ClaudeCodeStatusLine/blob/main/LICENSE)
+for the original copyright and permission notice.
+
 ## License
 
 [MIT](LICENSE)
