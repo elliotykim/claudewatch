@@ -8,6 +8,7 @@ Native macOS menu-bar app for tracking Claude Code usage and Anthropic service s
 - Claude Code service health from `https://status.claude.com/api/v2/components.json`.
 - Color-coded uptime history bar (30/60/90 days) sourced from incident data and the official status page.
 - 26-week usage-history heatmap with session/streak/peak stats, approximated from local Claude Code usage observed while ClaudeWatch is running (Anthropic does not expose historical usage, so nothing before you started using ClaudeWatch is available), backed by a local event log retained indefinitely.
+- Pay-as-you-go "extra usage" tracking: when enabled on your account, see monthly credits used vs. limit with a dedicated progress bar.
 - Customizable progress bar colors with dynamic, status-matching, and preset options.
 - Real-time relative timestamps with absolute tooltips on hover.
 - macOS 14 Sonoma+, Swift 5+/SwiftUI, sandboxed, zero external dependencies.
@@ -104,6 +105,12 @@ shows stale data, it means no terminal session has run since the last update.
     "used_percentage": 8.0,
     "resets_at": 1713500000
   },
+  "extra_usage": {
+    "is_enabled": true,
+    "used_percentage": 53.24,
+    "used_credits": 2662,
+    "monthly_limit": 5000
+  },
   "updated_at": 1713099000
 }
 ```
@@ -114,7 +121,14 @@ shows stale data, it means no terminal session has run since the last update.
 | `five_hour.resets_at` | no | Unix epoch when the session window resets |
 | `seven_day.used_percentage` | yes | 0–100, weekly usage across all models |
 | `seven_day.resets_at` | no | Unix epoch when the weekly window resets |
+| `extra_usage.is_enabled` | no | `true` if the account has pay-as-you-go extra credits enabled |
+| `extra_usage.used_percentage` | no | 0–100, share of the monthly credit limit consumed |
+| `extra_usage.used_credits` | no | USD cents consumed this month |
+| `extra_usage.monthly_limit` | no | USD cents allowed per month |
 | `updated_at` | no | Unix epoch when the file was last written |
+
+The Extra usage section only renders when `is_enabled` is `true` and all three
+numeric fields are present. Credits are in cents (divide by 100 for dollars).
 
 This is the shape the bundled `statusline.sh` writes today.
 
@@ -225,6 +239,21 @@ Avg/Max peak, Current/Longest streak) and a `7d / 30d / All` segmented
 picker appear above the heatmap. The duration picker only filters the
 stats — the heatmap always shows the full 26-week window, and `All`
 covers every retained event.
+
+### Extra usage
+
+| Setting | Default | Options |
+|---|---|---|
+| Extra usage | Only when used | Off, Only when used, Always |
+
+When your account has pay-as-you-go credits enabled, a dedicated section
+below the usage limits shows the month-to-date spend (`$X.XX of $Y.YY`),
+the percent used, and a progress bar tinted with the Usage-bars color.
+"Only when used" hides the section until any credits have been consumed;
+"Always" shows it whenever the account has extra usage enabled (even at
+$0); "Off" hides it entirely. Extra usage data only populates when the
+statusline can reach the Claude `/oauth/usage` API, since Claude Code's
+inline `rate_limits` input doesn't include it.
 
 #### Seeding synthetic history (development)
 
