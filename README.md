@@ -7,7 +7,7 @@ Native macOS menu-bar app for tracking Claude Code usage and Anthropic service s
 - Subscription usage from `~/.claude/claudewatch-usage.json`, written by the Claude Code statusline hook.
 - Claude Code service health from `https://status.claude.com/api/v2/components.json`.
 - Color-coded uptime history bar (30/60/90 days) sourced from incident data and the official status page.
-- 26-week usage-history heatmap with session/streak/peak stats, backed by a local event log retained indefinitely.
+- 26-week usage-history heatmap with session/streak/peak stats, approximated from local Claude Code usage observed while ClaudeWatch is running (Anthropic does not expose historical usage, so nothing before you started using ClaudeWatch is available), backed by a local event log retained indefinitely.
 - Customizable progress bar colors with dynamic, status-matching, and preset options.
 - Real-time relative timestamps with absolute tooltips on hover.
 - macOS 14 Sonoma+, Swift 5+/SwiftUI, sandboxed, zero external dependencies.
@@ -64,6 +64,10 @@ the statusline into place, checks that `jq` is installed, and configures
 ```sh
 ./install-statusline.sh
 ```
+
+Re-run `./install-statusline.sh` after every `git pull` to copy the latest
+`statusline.sh` into `~/.claude/` — updates to the script in this repo don't
+take effect until it's reinstalled.
 
 Or install manually:
 
