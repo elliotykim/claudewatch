@@ -211,35 +211,36 @@ mkdir -p /tmp/claude
 needs_refresh=true
 usage_data=""
 
-if ! $use_builtin; then
-    # Check cache — shared across all Claude Code instances to avoid rate limits
-    if [ -f "$cache_file" ] && [ -s "$cache_file" ]; then
-        cache_mtime=$(stat -c %Y "$cache_file" 2>/dev/null || stat -f %m "$cache_file" 2>/dev/null)
-        now=$(date +%s)
-        cache_age=$(( now - cache_mtime ))
-        if [ "$cache_age" -lt "$cache_max_age" ]; then
-            needs_refresh=false
-        fi
-        usage_data=$(cat "$cache_file" 2>/dev/null)
+# Check cache — shared across all Claude Code instances to avoid rate limits.
+# We always read the cached API response (even when use_builtin=true) because
+# extra_usage only comes from the API, not from Claude Code's rate_limits input.
+if [ -f "$cache_file" ] && [ -s "$cache_file" ]; then
+    cache_mtime=$(stat -c %Y "$cache_file" 2>/dev/null || stat -f %m "$cache_file" 2>/dev/null)
+    now=$(date +%s)
+    cache_age=$(( now - cache_mtime ))
+    if [ "$cache_age" -lt "$cache_max_age" ]; then
+        needs_refresh=false
     fi
+    usage_data=$(cat "$cache_file" 2>/dev/null)
+fi
 
-    # Fetch fresh data if cache is stale
-    if $needs_refresh; then
-        touch "$cache_file"  # stampede lock: prevent parallel panes from fetching simultaneously
-        token=$(get_oauth_token)
-        if [ -n "$token" ] && [ "$token" != "null" ]; then
-            response=$(curl -s --max-time 10 \
-                -H "Accept: application/json" \
-                -H "Content-Type: application/json" \
-                -H "Authorization: Bearer $token" \
-                -H "anthropic-beta: oauth-2025-04-20" \
-                -H "User-Agent: claude-code/2.1.34" \
-                "https://api.anthropic.com/api/oauth/usage" 2>/dev/null)
-            # Only cache valid usage responses (not error/rate-limit JSON)
-            if [ -n "$response" ] && echo "$response" | jq -e '.five_hour' >/dev/null 2>&1; then
-                usage_data="$response"
-                echo "$response" > "$cache_file"
-            fi
+# When rate_limits are provided inline by Claude Code we don't need a fresh
+# fetch just for 5h/7d, but we do refresh so extra_usage stays current.
+if $needs_refresh; then
+    touch "$cache_file"  # stampede lock: prevent parallel panes from fetching simultaneously
+    token=$(get_oauth_token)
+    if [ -n "$token" ] && [ "$token" != "null" ]; then
+        response=$(curl -s --max-time 10 \
+            -H "Accept: application/json" \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer $token" \
+            -H "anthropic-beta: oauth-2025-04-20" \
+            -H "User-Agent: claude-code/2.1.34" \
+            "https://api.anthropic.com/api/oauth/usage" 2>/dev/null)
+        # Only cache valid usage responses (not error/rate-limit JSON)
+        if [ -n "$response" ] && echo "$response" | jq -e '.five_hour' >/dev/null 2>&1; then
+            usage_data="$response"
+            echo "$response" > "$cache_file"
         fi
     fi
 fi
@@ -317,35 +318,71 @@ format_reset_time() {
 
 # ===== Write usage data for ClaudeWatch =====
 claudewatch_file="$claude_config_dir/claudewatch-usage.json"
+# Coerces a value to a JSON-safe number literal or "null".
+# --argjson aborts jq if passed a non-numeric string, which would silently
+# nuke the entire claudewatch-usage.json write (including the 5h/7d fields).
+numeric_or_null() {
+    case "$1" in
+        ''|null) echo null ;;
+        *[!0-9.+-]*) echo null ;;
+        *) echo "$1" ;;
+    esac
+}
+
 cw_five_pct=""
 cw_five_reset=""
 cw_seven_pct=""
 cw_seven_reset=""
+cw_extra_enabled="false"
+cw_extra_pct=""
+cw_extra_used_credits=""
+cw_extra_monthly_limit=""
 
 if $use_builtin; then
     cw_five_pct="$builtin_five_hour_pct"
     cw_five_reset="$builtin_five_hour_reset"
     cw_seven_pct="$builtin_seven_day_pct"
     cw_seven_reset="$builtin_seven_day_reset"
-elif [ -n "$usage_data" ] && echo "$usage_data" | jq -e '.five_hour' >/dev/null 2>&1; then
-    cw_five_pct=$(echo "$usage_data" | jq -r '.five_hour.utilization // empty')
-    cw_seven_pct=$(echo "$usage_data" | jq -r '.seven_day.utilization // empty')
-    cw_five_reset_iso=$(echo "$usage_data" | jq -r '.five_hour.resets_at // empty')
-    cw_seven_reset_iso=$(echo "$usage_data" | jq -r '.seven_day.resets_at // empty')
-    [ -n "$cw_five_reset_iso" ] && [ "$cw_five_reset_iso" != "null" ] && cw_five_reset=$(iso_to_epoch "$cw_five_reset_iso")
-    [ -n "$cw_seven_reset_iso" ] && [ "$cw_seven_reset_iso" != "null" ] && cw_seven_reset=$(iso_to_epoch "$cw_seven_reset_iso")
 fi
 
-if [ -n "$cw_five_pct" ] || [ -n "$cw_seven_pct" ]; then
+if [ -n "$usage_data" ] && echo "$usage_data" | jq -e '.five_hour' >/dev/null 2>&1; then
+    if ! $use_builtin; then
+        cw_five_pct=$(echo "$usage_data" | jq -r '.five_hour.utilization // empty')
+        cw_seven_pct=$(echo "$usage_data" | jq -r '.seven_day.utilization // empty')
+        cw_five_reset_iso=$(echo "$usage_data" | jq -r '.five_hour.resets_at // empty')
+        cw_seven_reset_iso=$(echo "$usage_data" | jq -r '.seven_day.resets_at // empty')
+        [ -n "$cw_five_reset_iso" ] && [ "$cw_five_reset_iso" != "null" ] && cw_five_reset=$(iso_to_epoch "$cw_five_reset_iso")
+        [ -n "$cw_seven_reset_iso" ] && [ "$cw_seven_reset_iso" != "null" ] && cw_seven_reset=$(iso_to_epoch "$cw_seven_reset_iso")
+    fi
+    cw_extra_enabled=$(echo "$usage_data" | jq -r '.extra_usage.is_enabled // false')
+    if [ "$cw_extra_enabled" = "true" ]; then
+        cw_extra_pct=$(echo "$usage_data" | jq -r '.extra_usage.utilization // empty')
+        cw_extra_used_credits=$(echo "$usage_data" | jq -r '.extra_usage.used_credits // empty')
+        cw_extra_monthly_limit=$(echo "$usage_data" | jq -r '.extra_usage.monthly_limit // empty')
+    fi
+fi
+
+if [ -n "$cw_five_pct" ] || [ -n "$cw_seven_pct" ] || [ "$cw_extra_enabled" = "true" ]; then
+    case "$cw_extra_enabled" in true|false) ;; *) cw_extra_enabled=false ;; esac
     jq -n \
-        --argjson five_hour_pct "${cw_five_pct:-null}" \
-        --argjson five_hour_reset "${cw_five_reset:-null}" \
-        --argjson seven_day_pct "${cw_seven_pct:-null}" \
-        --argjson seven_day_reset "${cw_seven_reset:-null}" \
+        --argjson five_hour_pct "$(numeric_or_null "$cw_five_pct")" \
+        --argjson five_hour_reset "$(numeric_or_null "$cw_five_reset")" \
+        --argjson seven_day_pct "$(numeric_or_null "$cw_seven_pct")" \
+        --argjson seven_day_reset "$(numeric_or_null "$cw_seven_reset")" \
+        --argjson extra_enabled "$cw_extra_enabled" \
+        --argjson extra_pct "$(numeric_or_null "$cw_extra_pct")" \
+        --argjson extra_used_credits "$(numeric_or_null "$cw_extra_used_credits")" \
+        --argjson extra_monthly_limit "$(numeric_or_null "$cw_extra_monthly_limit")" \
         --argjson updated_at "$(date +%s)" \
         '{
             five_hour: { used_percentage: $five_hour_pct, resets_at: $five_hour_reset },
             seven_day: { used_percentage: $seven_day_pct, resets_at: $seven_day_reset },
+            extra_usage: {
+                is_enabled: $extra_enabled,
+                used_percentage: $extra_pct,
+                used_credits: $extra_used_credits,
+                monthly_limit: $extra_monthly_limit
+            },
             updated_at: $updated_at
         }' > "$claudewatch_file" 2>/dev/null
 fi

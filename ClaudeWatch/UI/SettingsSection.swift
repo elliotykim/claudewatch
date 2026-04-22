@@ -100,6 +100,15 @@ struct SettingsSection: View {
             .pickerStyle(.menu)
             .labelsHidden()
 
+            Text("Extra usage").font(.subheadline).foregroundStyle(.secondary)
+            Picker("", selection: $preferences.extraUsageDisplay) {
+                ForEach(ExtraUsageDisplay.allCases, id: \.self) { m in
+                    Text(m.label).tag(m)
+                }
+            }
+            .pickerStyle(.menu)
+            .labelsHidden()
+
             Divider()
 
             Group {

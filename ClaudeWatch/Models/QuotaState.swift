@@ -5,11 +5,20 @@ import Foundation
 struct QuotaState: Equatable {
     var fiveHour: Window?
     var weeklyLimits: [NamedWindow] = []
+    var extraUsage: ExtraUsage?
 
     var updatedAt: Date?
     var lastError: String?
 
     static let empty = QuotaState()
+
+    /// Pay-as-you-go credit usage beyond the subscription's rate limits.
+    /// Credits are in USD cents; divide by 100 for dollars.
+    struct ExtraUsage: Equatable {
+        var usedPercentage: Double
+        var usedCreditsCents: Double
+        var monthlyLimitCents: Double
+    }
 
     struct Window: Equatable {
         /// 0–100 percentage of the rate-limit budget consumed.
@@ -73,6 +82,18 @@ struct QuotaState: Equatable {
                 nw.resetsAt = Date(timeIntervalSince1970: epoch)
             }
             state.weeklyLimits.append(nw)
+        }
+
+        if let extra = json["extra_usage"] as? [String: Any],
+           (extra["is_enabled"] as? Bool) == true,
+           let pct = (extra["used_percentage"] as? NSNumber)?.doubleValue,
+           let used = (extra["used_credits"] as? NSNumber)?.doubleValue,
+           let limit = (extra["monthly_limit"] as? NSNumber)?.doubleValue {
+            state.extraUsage = ExtraUsage(
+                usedPercentage: pct,
+                usedCreditsCents: used,
+                monthlyLimitCents: limit
+            )
         }
 
         if let epoch = (json["updated_at"] as? NSNumber)?.doubleValue {

@@ -20,10 +20,21 @@ struct UsageSection: View {
         return coordinator.quota.weeklyLimits.contains { $0.isExpired }
     }
 
+    /// When a weekly limit is exhausted and the user is running on extra-usage
+    /// credits, the 5h window won't start a new session until weekly resets —
+    /// so the expired 5h reset time is expected and the "next time Claude Code
+    /// is used" hint would be misleading.
+    private var weeklyExhaustedWithExtra: Bool {
+        guard let extra = coordinator.quota.extraUsage, extra.usedCreditsCents > 0 else {
+            return false
+        }
+        return coordinator.quota.weeklyLimits.contains { $0.usedPercentage >= 100 }
+    }
+
     var body: some View {
         let _ = tick
         VStack(alignment: .leading, spacing: 8) {
-            Text("Your usage limits").font(.headline)
+            Text("Usage limits").font(.headline)
 
             if let fh = coordinator.quota.fiveHour {
                 usageRow(label: "Current session", window: fh)
@@ -61,7 +72,10 @@ struct UsageSection: View {
                     .help(Self.absoluteFormatter.string(from: updatedAt))
             }
 
-            if hasExpiredWindow {
+            if weeklyExhaustedWithExtra {
+                Text("Weekly limit reached — running on extra usage.")
+                    .font(.caption2).foregroundStyle(.tertiary)
+            } else if hasExpiredWindow {
                 Text("Usage will update next time Claude Code is used.")
                     .font(.caption2).foregroundStyle(.tertiary)
             }
@@ -101,8 +115,7 @@ struct UsageSection: View {
                     .font(.subheadline).monospacedDigit()
                     .foregroundStyle(.primary)
             }
-            ProgressView(value: min(displayPct, 100), total: 100)
-                .tint(tint)
+            UsageBar(value: displayPct, tint: tint)
         }
         .opacity(dimmed ? 0.6 : 1.0)
     }

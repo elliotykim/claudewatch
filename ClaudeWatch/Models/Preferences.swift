@@ -137,6 +137,30 @@ enum BarColor: String, CaseIterable {
     }
 }
 
+enum ExtraUsageDisplay: String, CaseIterable {
+    case off
+    case whenUsed
+    case always
+
+    var label: String {
+        switch self {
+        case .off:      return "Off"
+        case .whenUsed: return "Only when used"
+        case .always:   return "Always"
+        }
+    }
+
+    /// Whether the Extra-usage section should render for the given state.
+    func shouldShow(_ extra: QuotaState.ExtraUsage?) -> Bool {
+        guard let extra else { return false }
+        switch self {
+        case .off:      return false
+        case .always:   return true
+        case .whenUsed: return extra.usedCreditsCents > 0
+        }
+    }
+}
+
 enum UsageHistoryDuration: String, CaseIterable {
     case sevenDays
     case thirtyDays
@@ -240,4 +264,7 @@ final class Preferences: ObservableObject {
     // Usage history graph
     @AppStorage("usageHistoryDuration") var usageHistoryDuration: UsageHistoryDuration = .sevenDays
     @AppStorage("usageHistoryMode")     var usageHistoryMode: UsageHistoryMode = .chartAndStats
+
+    // Extra usage (pay-as-you-go credits)
+    @AppStorage("extraUsageDisplay") var extraUsageDisplay: ExtraUsageDisplay = .whenUsed
 }

@@ -35,6 +35,11 @@ struct PopoverRoot: View {
             Divider()
             UsageSection(coordinator: coordinator, preferences: preferences)
 
+            if preferences.extraUsageDisplay.shouldShow(coordinator.quota.extraUsage) {
+                Divider()
+                ExtraUsageSection(coordinator: coordinator, preferences: preferences)
+            }
+
             if preferences.usageHistoryMode != .off {
                 Divider()
                 UsageHistorySection(

@@ -39,15 +39,24 @@ struct UsageHistoryStats {
         guard !events.isEmpty else { return .empty }
 
         // Group events by session (sessionResetsAt serves as session id).
-        var sessionPeaks: [Date: Double] = [:]
+        // Only sessions with a `.start` inside the window count: the coordinator
+        // emits an `.end` for the previous session at the boundary of a new
+        // session, so an `.end` event can carry a `sessionResetsAt` for a session
+        // that began before the cutoff. Counting those would over-report.
         var sessionStarts: [Date: Date] = [:]
-        for e in events {
+        for e in events where e.kind == .start {
             let key = e.sessionResetsAt ?? e.at
-            sessionPeaks[key] = max(sessionPeaks[key] ?? 0, e.percent)
-            if e.kind == .start { sessionStarts[key] = e.at }
+            sessionStarts[key] = e.at
         }
 
-        let sessions = sessionPeaks.count
+        var sessionPeaks: [Date: Double] = [:]
+        for e in events {
+            let key = e.sessionResetsAt ?? e.at
+            guard sessionStarts[key] != nil else { continue }
+            sessionPeaks[key] = max(sessionPeaks[key] ?? 0, e.percent)
+        }
+
+        let sessions = sessionStarts.count
         let peaks = Array(sessionPeaks.values)
         let avgPeak = peaks.isEmpty ? 0 : peaks.reduce(0, +) / Double(peaks.count)
         let maxPeak = peaks.max() ?? 0
