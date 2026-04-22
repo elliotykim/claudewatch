@@ -15,6 +15,7 @@ final class AppCoordinator: ObservableObject {
     @Published private(set) var uptime: [ComponentUptime] = []
 
     let preferences = Preferences.shared
+    let history = UsageHistoryStore()
 
     private let quotaClient = QuotaSyncClient()
     private let statusClient = StatusClient()
@@ -100,11 +101,78 @@ final class AppCoordinator: ObservableObject {
                 )
             }
 
+            recordHistory(state: state, observedAt: state.updatedAt ?? Date())
+
             lastFiveHourResetsAt = state.fiveHour?.resetsAt
             lastFiveHourUsagePercent = state.fiveHour?.usedPercentage
             quota = state
         } else {
             quota.lastError = "No data — is the statusline hook configured in Claude Code?"
+        }
+    }
+
+    /// Emits session start/update/end events to the usage history store.
+    ///
+    /// - `start`  — the 5-hour window's `resetsAt` changed (new session), or
+    ///   there are no persisted events yet and we've just observed a window.
+    /// - `update` — same session, and `usedPercentage` strictly increased
+    ///   since the last recorded event.
+    /// - `end`    — written immediately before a new session's `start`,
+    ///   capturing the outgoing session's last known percent. We can only
+    ///   know a session is over once a newer one appears.
+    ///
+    /// No-op when the same session is observed with unchanged (or decreased)
+    /// percentage, which keeps the log compact.
+    private func recordHistory(state: QuotaState, observedAt: Date) {
+        guard let fh = state.fiveHour else { return }
+
+        let lastEvent = history.events.last
+
+        // A fresh install / first launch with an in-progress session: seed a
+        // `start` at the current percent so the session shows up on the graph
+        // without a fabricated 0%.
+        if lastEvent == nil {
+            history.append(UsageHistoryEvent(
+                kind: .start,
+                at: observedAt,
+                percent: fh.usedPercentage,
+                sessionResetsAt: fh.resetsAt
+            ))
+            return
+        }
+
+        let sameSession = lastEvent?.sessionResetsAt == fh.resetsAt
+
+        if !sameSession {
+            // Close out the previous session with its last known percent.
+            // The `.end` is dated one millisecond before `observedAt` so
+            // sorting the log preserves the logical order (`.end` before
+            // the new `.start`) even at identical wall-clock timestamps.
+            if let prev = lastEvent, prev.kind != .end {
+                history.append(UsageHistoryEvent(
+                    kind: .end,
+                    at: observedAt.addingTimeInterval(-0.001),
+                    percent: prev.percent,
+                    sessionResetsAt: prev.sessionResetsAt
+                ))
+            }
+            history.append(UsageHistoryEvent(
+                kind: .start,
+                at: observedAt,
+                percent: fh.usedPercentage,
+                sessionResetsAt: fh.resetsAt
+            ))
+            return
+        }
+
+        // Same session — only record when usage increases, to stay compact.
+        if let prev = lastEvent, fh.usedPercentage > prev.percent {
+            history.append(UsageHistoryEvent(
+                kind: .update,
+                at: observedAt,
+                percent: fh.usedPercentage,
+                sessionResetsAt: fh.resetsAt
+            ))
         }
     }
 

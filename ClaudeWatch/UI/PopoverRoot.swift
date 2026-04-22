@@ -34,6 +34,15 @@ struct PopoverRoot: View {
 
             Divider()
             UsageSection(coordinator: coordinator, preferences: preferences)
+
+            if preferences.usageHistoryMode != .off {
+                Divider()
+                UsageHistorySection(
+                    coordinator: coordinator,
+                    preferences: preferences,
+                    history: coordinator.history
+                )
+            }
         }
         .padding(14)
     }
@@ -42,6 +51,7 @@ struct PopoverRoot: View {
         ScrollView {
             SettingsSection(
                 preferences: preferences,
+                history: coordinator.history,
                 onChange: onSettingsChange
             )
             .padding(14)

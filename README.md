@@ -7,6 +7,7 @@ Native macOS menu-bar app for tracking Claude Code usage and Anthropic service s
 - Subscription usage from `~/.claude/claudewatch-usage.json`, written by the Claude Code statusline hook.
 - Claude Code service health from `https://status.claude.com/api/v2/components.json`.
 - Color-coded uptime history bar (30/60/90 days) sourced from incident data and the official status page.
+- 26-week usage-history heatmap with session/streak/peak stats, backed by a local event log retained indefinitely.
 - Customizable progress bar colors with dynamic, status-matching, and preset options.
 - Real-time relative timestamps with absolute tooltips on hover.
 - macOS 14 Sonoma+, Swift 5+/SwiftUI, sandboxed, zero external dependencies.
@@ -137,10 +138,13 @@ present, it takes precedence.
 ```
 ClaudeWatch/
   App/            ClaudeWatchApp, AppDelegate, Info.plist, entitlements
-  Models/         Severity, QuotaState, StatusState, Preferences, UptimeHistory
-  Services/       Quota file reader, status HTTP, uptime client, notifications, Carbon hotkey
-  Coordinator/    AppCoordinator (timers, wake observer, threshold detection)
-  UI/             MenuBarLabel, PopoverRoot, Usage/Status/Uptime/Settings sections, HotkeyRecorder
+  Models/         Severity, QuotaState, StatusState, Preferences, UptimeHistory,
+                  UsageHistoryEvent, UsageHistoryStats
+  Services/       Quota file reader, status HTTP, uptime client, usage history store,
+                  notifications, Carbon hotkey
+  Coordinator/    AppCoordinator (timers, wake observer, threshold detection, history recording)
+  UI/             MenuBarLabel, PopoverRoot, Usage/Status/Uptime/UsageHistory/Settings sections,
+                  HotkeyRecorder
 ClaudeWatchTests/
   QuotaSyncClientTests, StatusClientTests, MockURLProtocol
 ```
@@ -162,15 +166,17 @@ editable from the popover's Settings section. Changes take effect immediately.
 
 | Setting | Default | Options |
 |---|---|---|
-| Menu bar graphic | Dynamic blue | Dynamic blue, Dynamic white, Dynamic black, Monochrome, Match status color, Blue, Indigo, Purple, Teal, Mint, Pink |
+| Menu bar graphic | Dynamic | Dynamic, Monochrome, Match status color, Blue, Indigo, Purple, Teal, Mint, Pink |
 | Usage bars | Dynamic | Dynamic, Match status color, Blue, Indigo, Purple, Teal, Mint, Pink |
 
 Menu bar graphic controls the color of the usage graphic in the menu bar
 (mini bar, ring, etc.). Usage bars controls the popover progress bars. Both
-are configured independently. Dynamic options shift through yellow/orange/red
-as usage increases; "Monochrome" uses the system primary color. Preset colors
-stay fixed. "Match status color" uses the current Claude Code service health
-color. The menu bar percentage text always uses dynamic coloring for readability.
+are configured independently. "Dynamic" uses the system primary color (black
+in light mode, white in dark mode) and shifts through yellow/orange/red as
+usage climbs. "Monochrome" also uses the primary color but stays flat.
+Preset colors stay fixed. "Match status color" uses the current Claude Code
+service health color. The menu bar percentage text always uses dynamic
+coloring for readability.
 
 ### Notifications
 
@@ -196,6 +202,25 @@ Per-severity macOS notifications when Claude Code service status changes.
 Shows a color-coded daily uptime bar for Claude Code below the status indicator.
 Daily severity is computed from incident data; the 90-day uptime percentage is
 scraped from the official status page.
+
+### Usage history
+
+| Setting | Default | Options |
+|---|---|---|
+| Usage history | Chart and stats | Off, Chart only, Chart and stats |
+
+Records every 5-hour session (`start`, usage bumps, `end`) to a JSON event
+log in the app's sandboxed Application Support directory. Events are retained
+indefinitely. The popover shows a 26-week (182-day) calendar heatmap keyed
+by total daily usage (sum of each session's peak %), tinted to match the
+Usage-bars color preference. Hovering a cell surfaces that day's
+session count and total usage.
+
+When "Chart and stats" is selected, a 3×2 stat grid (Sessions, Active days,
+Avg/Max peak, Current/Longest streak) and a `7d / 30d / All` segmented
+picker appear above the heatmap. The duration picker only filters the
+stats — the heatmap always shows the full 26-week window, and `All`
+covers every retained event.
 
 ### Polling intervals
 

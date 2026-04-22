@@ -60,8 +60,6 @@ private func dynamicColor(_ pct: Double, base: Color) -> Color {
 
 enum GraphicColor: String, CaseIterable {
     case dynamic
-    case dynamicWhite
-    case dynamicBlack
     case monochrome
     case matchStatus
     case blue
@@ -73,27 +71,25 @@ enum GraphicColor: String, CaseIterable {
 
     var label: String {
         switch self {
-        case .dynamic:      return "Dynamic (blue at low usage)"
-        case .dynamicWhite: return "Dynamic (white at low usage)"
-        case .dynamicBlack: return "Dynamic (black at low usage)"
-        case .monochrome:   return "Monochrome"
-        case .matchStatus:  return "Match status color"
-        case .blue:         return "Blue"
-        case .indigo:       return "Indigo"
-        case .purple:       return "Purple"
-        case .teal:         return "Teal"
-        case .mint:         return "Mint"
-        case .pink:         return "Pink"
+        case .dynamic:     return "Dynamic"
+        case .monochrome:  return "Monochrome"
+        case .matchStatus: return "Match status color"
+        case .blue:        return "Blue"
+        case .indigo:      return "Indigo"
+        case .purple:      return "Purple"
+        case .teal:        return "Teal"
+        case .mint:        return "Mint"
+        case .pink:        return "Pink"
         }
     }
 
     func resolve(usagePercent: Double, severity: Severity) -> Color {
         switch self {
-        case .dynamic:      return dynamicColor(usagePercent, base: .blue)
-        case .dynamicWhite: return dynamicColor(usagePercent, base: .white)
-        case .dynamicBlack: return dynamicColor(usagePercent, base: .black)
-        case .monochrome:   return .primary
-        case .matchStatus:  return severity.color
+        // `.primary` auto-adapts: black in light mode, white in dark mode.
+        // Threshold colors (yellow/orange/red) take over at higher usage.
+        case .dynamic:     return dynamicColor(usagePercent, base: .primary)
+        case .monochrome:  return .primary
+        case .matchStatus: return severity.color
         case .blue:    return .blue
         case .indigo:  return .indigo
         case .purple:  return .purple
@@ -137,6 +133,49 @@ enum BarColor: String, CaseIterable {
         case .teal:    return .teal
         case .mint:    return .mint
         case .pink:    return .pink
+        }
+    }
+}
+
+enum UsageHistoryDuration: String, CaseIterable {
+    case sevenDays
+    case thirtyDays
+    case all
+
+    /// Lower bound of the time window, relative to `reference`. For `.all`
+    /// this returns `Date.distantPast` so every retained event is included.
+    func cutoff(from reference: Date) -> Date {
+        switch self {
+        case .sevenDays:
+            return Calendar.current.date(byAdding: .day, value: -7, to: reference) ?? .distantPast
+        case .thirtyDays:
+            return Calendar.current.date(byAdding: .day, value: -30, to: reference) ?? .distantPast
+        case .all:
+            return .distantPast
+        }
+    }
+
+    /// Short label used in the inline segmented control ("7d", "30d", "All").
+    var shortLabel: String {
+        switch self {
+        case .sevenDays: return "7d"
+        case .thirtyDays: return "30d"
+        case .all:       return "All"
+        }
+    }
+}
+
+/// What the Usage history section shows, controlled from the settings menu.
+enum UsageHistoryMode: String, CaseIterable {
+    case off
+    case chart
+    case chartAndStats
+
+    var label: String {
+        switch self {
+        case .off:           return "Off"
+        case .chart:         return "Chart only"
+        case .chartAndStats: return "Chart and stats"
         }
     }
 }
@@ -197,4 +236,8 @@ final class Preferences: ObservableObject {
     // Default must match StatusComponent.claudeCodeID; stored as a raw string
     // because @AppStorage default values must be compile-time constants.
     @AppStorage("uptimeHistory") var uptimeHistory: UptimeHistory = .thirtyDays
+
+    // Usage history graph
+    @AppStorage("usageHistoryDuration") var usageHistoryDuration: UsageHistoryDuration = .sevenDays
+    @AppStorage("usageHistoryMode")     var usageHistoryMode: UsageHistoryMode = .chartAndStats
 }
