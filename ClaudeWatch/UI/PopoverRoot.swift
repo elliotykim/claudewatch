@@ -51,7 +51,6 @@ struct PopoverRoot: View {
         ScrollView {
             SettingsSection(
                 preferences: preferences,
-                history: coordinator.history,
                 onChange: onSettingsChange
             )
             .padding(14)

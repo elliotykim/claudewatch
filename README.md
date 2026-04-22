@@ -222,6 +222,19 @@ picker appear above the heatmap. The duration picker only filters the
 stats — the heatmap always shows the full 26-week window, and `All`
 covers every retained event.
 
+#### Seeding synthetic history (development)
+
+To populate the heatmap without waiting for real sessions, run:
+
+```sh
+./seed-usage-history.sh             # 365 days of synthetic history
+./seed-usage-history.sh --days 90   # custom window
+./seed-usage-history.sh --clear     # wipe all events
+```
+
+The script writes directly to the app's sandboxed Application Support
+directory. Reopen the popover (or relaunch the app) to pick up changes.
+
 ### Polling intervals
 
 | Setting | Default | Range | Step |

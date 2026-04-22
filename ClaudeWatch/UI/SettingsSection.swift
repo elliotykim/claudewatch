@@ -2,7 +2,6 @@ import SwiftUI
 
 struct SettingsSection: View {
     @ObservedObject var preferences: Preferences
-    let history: UsageHistoryStore
 
     /// Notified when something changes that requires the coordinator to
     /// re-schedule its timers or re-register the hotkey.
@@ -100,17 +99,6 @@ struct SettingsSection: View {
             }
             .pickerStyle(.menu)
             .labelsHidden()
-            #if DEBUG
-            HStack(spacing: 8) {
-                Button("Fill with sample data") { history.seedTestData() }
-                    .buttonStyle(.bordered)
-                    .controlSize(.small)
-                Button("Clear") { history.clear() }
-                    .buttonStyle(.bordered)
-                    .controlSize(.small)
-            }
-            .font(.caption)
-            #endif
 
             Divider()
 
